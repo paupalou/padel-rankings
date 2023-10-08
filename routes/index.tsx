@@ -2,7 +2,7 @@ import { load } from "https://deno.land/std@0.203.0/dotenv/mod.ts";
 import { getRanking, initPlayerPoints } from "../services/scoring.ts";
 
 const env = await load();
-const API_URL = env["API_URL"];
+const API_URL = Deno.env.has("API_URL") ? Deno.env.get("API_URL") : env["API_URL"];
 
 export default async function Home() {
   const playerRes = await fetch(`${API_URL}/players`);
