@@ -1,1 +1,4 @@
-export default await Deno.openKv();
+import { load } from "https://deno.land/std@0.203.0/dotenv/mod.ts";
+
+const env = await load();
+export default await Deno.openKv(env["DB_URL"]);

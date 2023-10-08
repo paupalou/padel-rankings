@@ -1,15 +1,12 @@
-import { useSignal } from "@preact/signals";
-import Counter from "../islands/Counter.tsx";
-import { Handlers } from "$fresh/server.ts";
-import { Game } from "../types.ts";
-import db from "../services/database.ts";
+import { load } from "https://deno.land/std@0.203.0/dotenv/mod.ts";
 import { getRanking, initPlayerPoints } from "../services/scoring.ts";
 
-const env = "http://localhost:8000/api";
+const env = await load();
+const API_URL = env["API_URL"];
 
 export default async function Home() {
-  const playerRes = await fetch(`${env}/players`);
-  const gameRes = await fetch(`${env}/games`);
+  const playerRes = await fetch(`${API_URL}/players`);
+  const gameRes = await fetch(`${API_URL}/games`);
 
   if (!playerRes.ok || !gameRes.ok) {
     return <h1>An error occurred</h1>;
