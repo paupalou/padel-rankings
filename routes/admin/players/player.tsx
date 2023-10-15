@@ -5,16 +5,13 @@ import Button from "components/button.tsx";
 import { create as createPlayer } from "services/players.ts";
 
 export const handler: Handlers = {
-  async GET(req, ctx) {
+  async GET(_req, ctx) {
     return await ctx.render();
   },
-  async POST(req, ctx) {
+  async POST(req, _ctx) {
     const form = await req.formData();
     const playerName = form.get("name")?.toString() ?? '';
     const playerId = form.get("id")?.toString() ?? '';
-
-    console.debug(`playerName`, playerName);
-    console.debug(`playerId`, playerId);
 
     createPlayer({ name: playerName, id: playerId });
 

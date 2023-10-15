@@ -37,23 +37,17 @@ export async function list() {
 }
 
 export async function create(game: Game) {
-  // game.createdAt = new Date();
   const gameId = game.id ?? ulid();
   const gameKey = ["game", gameId];
-
-  console.debug("create game pre");
 
   try {
     GameValidation.parse(game);
   } catch (e) {
-    console.debug(e);
     return new Response(
       `Game payload is not correct. \n\nError: ${JSON.stringify(e, null, 2)}`,
       { status: 400 },
     );
   }
-
-  console.debug("create game post");
 
   const ok = await db.atomic().set(gameKey, game).commit();
   if (!ok) throw new Error("Something went wrong.");

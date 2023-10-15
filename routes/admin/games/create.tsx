@@ -11,11 +11,11 @@ import Select from "components/select.tsx";
 import { ulid } from "$ulid";
 
 export const handler: Handlers = {
-  async GET(req, ctx) {
+  async GET(_req, ctx) {
     const players = await listPlayers();
     return await ctx.render({ players });
   },
-  async POST(req, ctx) {
+  async POST(req, _ctx) {
     const form = await req.formData();
     const game: Game = {
       id: ulid(),
@@ -32,8 +32,6 @@ export const handler: Handlers = {
     if (existsThirdSet) {
       game.set3 = [Number(form.get('set3team1')), Number(form.get('set3team2'))];
     }
-
-    console.debug(game)
 
     await createGame(game)
 
