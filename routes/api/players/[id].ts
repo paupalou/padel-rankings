@@ -1,6 +1,7 @@
 import { Handlers } from "$fresh/server.ts";
-import type { Player } from "../../../types.ts";
-import * as PlayerService from "../../../services/players.ts";
+
+import type { Player } from "types";
+import * as PlayerService from "services/players.ts";
 
 export const handler: Handlers<Player | null> = {
   async GET(_req, ctx) {

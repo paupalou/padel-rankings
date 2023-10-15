@@ -4,29 +4,43 @@
 
 import * as $0 from "./routes/_404.tsx";
 import * as $1 from "./routes/_app.tsx";
-import * as $2 from "./routes/api/games/[id].ts";
-import * as $3 from "./routes/api/games/index.ts";
-import * as $4 from "./routes/api/joke.ts";
-import * as $5 from "./routes/api/players/[id].ts";
-import * as $6 from "./routes/api/players/index.ts";
-import * as $7 from "./routes/greet/[name].tsx";
-import * as $8 from "./routes/index.tsx";
-import * as $$0 from "./islands/Counter.tsx";
+import * as $2 from "./routes/admin/_middleware.ts";
+import * as $3 from "./routes/admin/games/create.tsx";
+import * as $4 from "./routes/admin/games/index.tsx";
+import * as $5 from "./routes/admin/index.tsx";
+import * as $6 from "./routes/admin/players/create.tsx";
+import * as $7 from "./routes/admin/players/index.tsx";
+import * as $8 from "./routes/admin/players/player.tsx";
+import * as $9 from "./routes/admin/players/remove/[playerId].tsx";
+import * as $10 from "./routes/api/games/[id].ts";
+import * as $11 from "./routes/api/games/index.ts";
+import * as $12 from "./routes/api/players/[id].ts";
+import * as $13 from "./routes/api/players/index.ts";
+import * as $14 from "./routes/index.tsx";
+import * as $$0 from "./islands/player-selection.tsx";
+import * as $$1 from "./islands/set-selection.tsx";
 
 const manifest = {
   routes: {
     "./routes/_404.tsx": $0,
     "./routes/_app.tsx": $1,
-    "./routes/api/games/[id].ts": $2,
-    "./routes/api/games/index.ts": $3,
-    "./routes/api/joke.ts": $4,
-    "./routes/api/players/[id].ts": $5,
-    "./routes/api/players/index.ts": $6,
-    "./routes/greet/[name].tsx": $7,
-    "./routes/index.tsx": $8,
+    "./routes/admin/_middleware.ts": $2,
+    "./routes/admin/games/create.tsx": $3,
+    "./routes/admin/games/index.tsx": $4,
+    "./routes/admin/index.tsx": $5,
+    "./routes/admin/players/create.tsx": $6,
+    "./routes/admin/players/index.tsx": $7,
+    "./routes/admin/players/player.tsx": $8,
+    "./routes/admin/players/remove/[playerId].tsx": $9,
+    "./routes/api/games/[id].ts": $10,
+    "./routes/api/games/index.ts": $11,
+    "./routes/api/players/[id].ts": $12,
+    "./routes/api/players/index.ts": $13,
+    "./routes/index.tsx": $14,
   },
   islands: {
-    "./islands/Counter.tsx": $$0,
+    "./islands/player-selection.tsx": $$0,
+    "./islands/set-selection.tsx": $$1,
   },
   baseUrl: import.meta.url,
 };

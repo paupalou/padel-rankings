@@ -1,14 +1,11 @@
-import { z } from "https://deno.land/x/zod@v3.16.1/mod.ts";
-import { ulid } from "https://deno.land/x/ulid@v0.3.0/mod.ts";
+import { z } from "$zod";
+import { ulid } from "$ulid";
 
-import { Game } from "../types.ts";
-import db from "./database.ts";
-import { JSONResponse } from "./utils.ts";
+import { Game } from "types";
+import db from "services/database.ts";
+import { JSONResponse } from "services/utils.ts";
 
-const TeamValidation = z.array(z.object({
-  id: z.optional(z.string()),
-  name: z.string(),
-}));
+const TeamValidation = z.array(z.string());
 
 export const GameValidation = z.object({
   team1: TeamValidation,
@@ -27,31 +24,36 @@ export async function wipeAll() {
     if (!ok) throw new Error("Something went wrong");
   }
 
-  return new Response("all games deleted");
+  return "all games deleted";
 }
 
 export async function list() {
   const games = [];
-  for await (const res of db.list({ prefix: ["game"] })) {
+  for await (const res of db.list<Game>({ prefix: ["game"] })) {
     games.push(res.value);
   }
 
-  return JSONResponse(games);
+  return games;
 }
 
 export async function create(game: Game) {
-  game.createdAt = new Date();
-  const gameId = ulid();
+  // game.createdAt = new Date();
+  const gameId = game.id ?? ulid();
   const gameKey = ["game", gameId];
+
+  console.debug("create game pre");
 
   try {
     GameValidation.parse(game);
   } catch (e) {
+    console.debug(e);
     return new Response(
       `Game payload is not correct. \n\nError: ${JSON.stringify(e, null, 2)}`,
       { status: 400 },
     );
   }
+
+  console.debug("create game post");
 
   const ok = await db.atomic().set(gameKey, game).commit();
   if (!ok) throw new Error("Something went wrong.");

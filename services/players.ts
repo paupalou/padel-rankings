@@ -1,7 +1,7 @@
-import { ulid } from "https://deno.land/x/ulid@v0.3.0/mod.ts";
+import { ulid } from "$ulid";
 
-import type { Player } from "../types.ts";
-import db from "./database.ts";
+import type { Player } from "types";
+import db from "services/database.ts";
 
 export async function create(player: Player) {
   const playerId = player.id ?? ulid();
@@ -23,11 +23,20 @@ export async function get(playerId: string) {
 
 export async function list() {
   const players = [];
-  for await (const res of db.list({ prefix: ["player"] })) {
+  for await (const res of db.list<Player>({ prefix: ["player"] })) {
     players.push(res.value);
   }
 
-  return new Response(JSON.stringify(players));
+  return players;
+}
+
+export async function listById() {
+  const players: Record<string, Player> = {};
+  for await (const res of db.list<Player>({ prefix: ["player"] })) {
+    players[res.value.id] = res.value;
+  }
+
+  return players;
 }
 
 export async function wipeAll() {

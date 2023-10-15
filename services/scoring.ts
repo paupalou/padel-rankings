@@ -1,4 +1,4 @@
-import { Game, Player, SetScore, Team } from "../types.ts";
+import { Game, Player, SetScore, Team } from "types";
 
 interface PlayerPoints {
   name: string;
@@ -47,13 +47,13 @@ function assignSetPoints({ playerPoints, set, teams }: {
   const team2_won_set = gameDifference < 0;
 
   if (team1_won_set) {
-    for (const player of team1) {
-      playerPoints[player.id].points += rules.set_value + (gameDifference - 2);
+    for (const playerId of team1) {
+      playerPoints[playerId].points += rules.set_value + (gameDifference - 2);
     }
     return 1;
   } else if (team2_won_set) {
-    for (const player of team2) {
-      playerPoints[player.id].points += rules.set_value +
+    for (const playerId of team2) {
+      playerPoints[playerId].points += rules.set_value +
         Math.abs(gameDifference) - 2;
     }
     return 2;
@@ -85,21 +85,21 @@ export function getRanking(
       gameWinner = assignSetPoints({ set: game.set3, playerPoints, teams });
     }
 
-    for (const player of game.team1) {
-      playerPoints[player.id].games += 1;
+    for (const playerId of game.team1) {
+      playerPoints[playerId].games += 1;
       if (gameWinner === 1) {
-        playerPoints[player.id].wins += 1;
+        playerPoints[playerId].wins += 1;
       } else {
-        playerPoints[player.id].loses += 1;
+        playerPoints[playerId].loses += 1;
       }
     }
 
-    for (const player of game.team2) {
-      playerPoints[player.id].games += 1;
+    for (const playerId of game.team2) {
+      playerPoints[playerId].games += 1;
       if (gameWinner === 2) {
-        playerPoints[player.id].wins += 1;
+        playerPoints[playerId].wins += 1;
       } else {
-        playerPoints[player.id].loses += 1;
+        playerPoints[playerId].loses += 1;
       }
     }
   });
@@ -124,9 +124,15 @@ export function getRanking(
       return 1;
     }
 
-    if (a.games > b.games) {
+    if (a.points > b.points) {
       return -1;
-    } else if (b.games > b.games) {
+    } else if (b.points > a.points) {
+      return 1;
+    }
+
+    if (a.average > b.average) {
+      return -1;
+    } else if (b.average > a.average) {
       return 1;
     }
 

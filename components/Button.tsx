@@ -1,12 +1,21 @@
-import { JSX } from "preact";
-import { IS_BROWSER } from "$fresh/runtime.ts";
+import { ComponentChildren } from "preact";
 
-export function Button(props: JSX.HTMLAttributes<HTMLButtonElement>) {
+interface ButtonProps {
+  type?: "button" | "submit";
+  children: ComponentChildren;
+  onClick?: VoidFunction
+}
+
+export default function Button(
+  { type = "button", children, ...props }: ButtonProps,
+) {
   return (
     <button
+      type={type}
+      className="border border-slate-300 hover:border-slate-800 text-slate-600 w-fit px-3 py-0.5 rounded-lg text-sm"
       {...props}
-      disabled={!IS_BROWSER || props.disabled}
-      class="px-2 py-1 border-gray-500 border-2 rounded bg-white hover:bg-gray-200 transition-colors"
-    />
+    >
+      {children}
+    </button>
   );
 }
