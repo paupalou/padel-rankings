@@ -105,15 +105,22 @@ export function getRanking(
   });
 
   const average = Object.keys(playerPoints).map((playerId) => {
-    const playerGames = playerPoints[playerId].games;
-    const points = playerPoints[playerId].points;
-    const average = playerGames === 0 ? 0 : points / playerGames;
-    const loses = playerPoints[playerId].loses;
+    const playerData = playerPoints[playerId];
+    const average = Math.round(
+      playerData.games === 0 ? 0 : playerData.points / playerData.games,
+    );
+
     return {
       ...playerPoints[playerId],
       id: playerId,
       average,
-      score: points - (loses > 0 ? average * loses : 0),
+      score: Math.round(
+        playerData.points -
+          (playerData.loses > 0 ? average * playerData.loses : 0),
+      ),
+      winratio: playerData.games === 0
+        ? 0
+        : Math.round(playerData.wins / playerData.games * 100),
     };
   });
 

@@ -104,15 +104,13 @@ export default function Home(props: Data<RankingProps & UserProps>) {
             <span className="w-12 text-right">{player.loses}</span>
             <span className="w-12 text-right">{player.points}</span>
             <span className="w-12 text-right">
-              {Math.round(player.average)}
+              {player.average}
             </span>
             <span className="w-12 text-right font-semibold">
-              {Math.round(player.score)}
+              {player.score}
             </span>
             <span className="w-16 text-right text-xs">
-              {player.games === 0
-                ? 0
-                : Math.round(player.wins / player.games * 100)}%
+              {player.winratio}%
             </span>
           </li>
         ))}
