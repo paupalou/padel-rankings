@@ -1,14 +1,4 @@
-import { Game, Player, SetScore, Team } from "types";
-
-interface PlayerPoints {
-  name: string;
-  points: number;
-  score: number;
-  games: number;
-  wins: number;
-  loses: number;
-  average: number;
-}
+import { Game, Player, PlayerPoints, SetScore, Team } from "types";
 
 const rules = {
   // scoring

@@ -33,3 +33,14 @@ export type GoogleUserInfo = {
   email: string;
   picture: string;
 } & UserType;
+
+export type PlayerPoints = {
+  name: string;
+  points: number;
+  score: number;
+  games: number;
+  wins: number;
+  loses: number;
+  average: number;
+  winratio: number;
+};
