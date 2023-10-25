@@ -57,7 +57,7 @@ function User({ user }: UserProps) {
   return (
     <div className="flex py-2 justify-between items-center">
       <span className="flex text-sm gap-1">
-        {user.isLogged && <>Hello <span className="text-slate-400">{user.email}</span></>}
+        {user.isLogged && <span className="text-slate-400">{user.email}</span>}
       </span>
       <div name="user-actions" className="flex gap-1">
         {user.isAdmin &&
@@ -80,7 +80,7 @@ export default function Home(props: Data<RankingProps & UserProps>) {
   const { user, ranking } = props.data;
 
   return (
-    <main class="p-1 xl:max-w-xl font-varela h-screen relative">
+    <main class="px-2 xl:max-w-xl font-varela h-screen relative">
       <User user={user} />
       {ranking && <Ranking ranking={ranking} />}
       <div class="absolute bg-[#e5f2e8] bg-main bg-no-repeat bg-center bg-contain h-full w-full top-0 left-0 opacity-30 z-[-1]" />

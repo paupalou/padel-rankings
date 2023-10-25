@@ -48,7 +48,7 @@ export async function listRankingGames(rankingId: string) {
 }
 
 export async function create(game: Game, rankingId: string) {
-  const gameId = game.id ?? ulid();
+  const gameId = game.id?.length > 0 ? game.id : ulid();
   const primaryKey = ["games", gameId];
   const byRankingKey = ["games_by_ranking", rankingId, gameId];
 
