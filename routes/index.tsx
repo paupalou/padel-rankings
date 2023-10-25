@@ -5,8 +5,9 @@ import Button from "components/button.tsx";
 import { list as listPlayers } from "services/players.ts";
 import { list as listGames } from "services/games.ts";
 import db from "services/database.ts";
-import { Data, Game, GoogleUserInfo, Player } from "types";
+import { Data, GoogleUserInfo, PlayerPoints } from "types";
 import Ranking from "components/ranking.tsx";
+import getEnv from "env";
 
 type UserProps = {
   user: {
@@ -17,24 +18,27 @@ type UserProps = {
 };
 
 type RankingProps = {
-  players: Player[];
-  games: Game[];
+  ranking?: PlayerPoints[]
 };
 
 export const handler: Handlers = {
   async GET(req, ctx) {
     const sessionId = getSessionId(req);
-    const players = await listPlayers();
-    const games = await listGames();
-
     const props: RankingProps & UserProps = {
       user: {
         isLogged: !!sessionId,
         isAdmin: false,
       },
-      players,
-      games,
     };
+    const defaultRanking =getEnv("DEFAULT_RANKING_IN_HOME")
+
+    if (defaultRanking) {
+      const players = await listPlayers();
+      const games = await listGames();
+      const playerPoints = initPlayerPoints(players);
+
+      props.ranking = getRanking(games, playerPoints);
+    }
 
     if (sessionId) {
       const userSession = await db.get<GoogleUserInfo>([
@@ -73,61 +77,13 @@ function User({ user }: UserProps) {
 }
 
 export default function Home(props: Data<RankingProps & UserProps>) {
-  const { user, players, games } = props.data;
-  const playerPoints = initPlayerPoints(players);
-  const ranking = getRanking(games, playerPoints);
+  const { user, ranking } = props.data;
 
   return (
-    <main className="p-1 xl:max-w-xl bg-[#e0fbfc] font-varela">
+    <main class="p-1 xl:max-w-xl font-varela h-screen relative">
       <User user={user} />
-      <Ranking ranking={ranking} />
+      {ranking && <Ranking ranking={ranking} />}
+      <div class="absolute bg-[#e5f2e8] bg-main bg-no-repeat bg-center bg-contain h-full w-full top-0 left-0 opacity-30 z-[-1]" />
     </main>
   );
 }
-
-// export default function Home(props: Data<RankingProps & UserProps>) {
-//   const { user, players, games } = props.data;
-//   const playerPoints = initPlayerPoints(players);
-//   const ranking = getRanking(games, playerPoints);
-//
-//   return (
-//     <main className="p-1 xl:max-w-xl">
-//       <User user={user} />
-//       <ul className="border border-slate-300">
-//         <li className="flex gap-2 px-2 py-1 items-center text-xs bg-green-200 border-b text-slate-600 border-slate-900">
-//           <span className="w-4 leading-6"></span>
-//           <span className="w-28">player</span>
-//           <span className="w-12 text-right">games</span>
-//           <span className="w-12 text-right">wins</span>
-//           <span className="w-12 text-right">loses</span>
-//           <span className="w-12 text-right">points</span>
-//           <span className="w-12 text-right">average</span>
-//           <span className="w-12 text-right">score</span>
-//           <span className="w-16 text-right">win ratio</span>
-//         </li>
-//         {ranking.map((player, index) => (
-//           <li
-//             className="flex gap-2 px-2 py-0.5 items-center"
-//             key={`player-${player.id}`}
-//           >
-//             <span className="w-4 text-xs leading-6">{index + 1}</span>
-//             <span className="w-28">{player.name}</span>
-//             <span className="w-12 text-right">{player.games}</span>
-//             <span className="w-12 text-right">{player.wins}</span>
-//             <span className="w-12 text-right">{player.loses}</span>
-//             <span className="w-12 text-right">{player.points}</span>
-//             <span className="w-12 text-right">
-//               {player.average}
-//             </span>
-//             <span className="w-12 text-right font-semibold">
-//               {player.score}
-//             </span>
-//             <span className="w-16 text-right text-xs">
-//               {player.winratio}%
-//             </span>
-//           </li>
-//         ))}
-//       </ul>
-//     </main>
-//   );
-// }

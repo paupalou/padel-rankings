@@ -1,11 +1,12 @@
 import { Handlers } from "$fresh/server.ts";
-import { list as listGames } from "services/games.ts";
+import { listRankingGames } from "services/games.ts";
 import { listById as listPlayersById } from "services/players.ts";
 import { Data, Game, Player } from "types";
 
 export const handler: Handlers = {
   async GET(req, ctx) {
-    const games = await listGames();
+    const { rankingId } = ctx.params;
+    const games = await listRankingGames(rankingId);
     const playersById = await listPlayersById();
 
     return ctx.render({

@@ -8,11 +8,20 @@ export type Player = {
   avatar?: string;
 };
 
+export type Ranking = {
+  id: string;
+  name: string;
+  creator: string;
+  users: Player[];
+  createdAt: Date;
+};
+
 export type Team = [string, string];
 export type SetScore = [number, number];
 
 export type Game = {
   id: string;
+  ranking: string;
   team1: Team;
   team2: Team;
   set1: SetScore;

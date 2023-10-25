@@ -18,6 +18,9 @@ export default {
           "green-light": "#80ED99",
           yellow: "#C7F9CC",
         },
+        backgroundImage: {
+          main: "url('/mainbg.jpeg')",
+        },
       },
     },
   }),

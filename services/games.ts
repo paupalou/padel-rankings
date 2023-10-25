@@ -29,16 +29,28 @@ export async function wipeAll() {
 
 export async function list() {
   const games = [];
-  for await (const res of db.list<Game>({ prefix: ["game"] })) {
+  for await (const res of db.list<Game>({ prefix: ["games"] })) {
     games.push(res.value);
   }
 
   return games;
 }
 
-export async function create(game: Game) {
+export async function listRankingGames(rankingId: string) {
+  const games = [];
+  for await (
+    const res of db.list<Game>({ prefix: ["games_by_ranking", rankingId] })
+  ) {
+    games.push(res.value);
+  }
+
+  return games;
+}
+
+export async function create(game: Game, rankingId: string) {
   const gameId = game.id ?? ulid();
-  const gameKey = ["game", gameId];
+  const primaryKey = ["games", gameId];
+  const byRankingKey = ["games_by_ranking", rankingId, gameId];
 
   try {
     GameValidation.parse(game);
@@ -49,9 +61,14 @@ export async function create(game: Game) {
     );
   }
 
-  const ok = await db.atomic().set(gameKey, game).commit();
+  const ok = await db.atomic()
+    .check({ key: primaryKey, versionstamp: null })
+    .set(primaryKey, game)
+    .set(byRankingKey, game)
+    .commit();
   if (!ok) throw new Error("Something went wrong.");
-  return new Response(gameId);
+
+  return `game ${gameId} created`;
 }
 
 export async function remove(gameId: string) {
