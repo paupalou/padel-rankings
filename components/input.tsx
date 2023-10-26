@@ -3,8 +3,8 @@ interface InputProps {
   label?: string;
   type?: "text" | "number" | "date";
   className?: string;
-  min?: number
-  max?: number
+  min?: number;
+  max?: number;
 }
 
 export default function Input(

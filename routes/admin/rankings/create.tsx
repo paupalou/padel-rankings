@@ -28,8 +28,9 @@ export const handler: Handlers = {
         name: rankingName,
         id: rankingId,
         creator: userSession.value?.email!,
-        users: [],
-        createdAt: new Date()
+        players: [],
+        admins: [],
+        createdAt: new Date(),
       });
 
       return new Response(null, {
@@ -37,7 +38,7 @@ export const handler: Handlers = {
       });
     }
 
-    return new Response(null,  { status: 401 })
+    return new Response(null, { status: 401 });
   },
 };
 

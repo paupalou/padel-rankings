@@ -14,19 +14,22 @@ export default function Rankings(
   { data: { rankings } }: Data<{ rankings: Ranking[] }>,
 ) {
   return (
-    <main class="p-1 xl:max-w-xl">
-      <h2>Rankings</h2>
+    <section class="flex flex-col gap-2">
+      <h2>
+        <a class="text-cyan-800 mr-2" href={"."}>Admin &gt;</a>
+        <span class="text-slate-800">Rankings</span>
+      </h2>
 
-        {rankings.map((ranking) => (
-          <a href={`/admin/rankings/${ranking.id}/games`}>
-            <Button
-              class="w-full justify-between py-1.5 my-2"
-              key={`ranking-${ranking.id}`}
-            >
-              <span class="w-28">{ranking.name}</span>
-            </Button>
-          </a>
-        ))}
-    </main>
+      {rankings.map((ranking) => (
+        <a href={`/admin/rankings/${ranking.id}`}>
+          <Button
+            class="w-full justify-between py-1.5 my-2"
+            key={`ranking-${ranking.id}`}
+          >
+            <span class="w-28">{ranking.name}</span>
+          </Button>
+        </a>
+      ))}
+    </section>
   );
 }

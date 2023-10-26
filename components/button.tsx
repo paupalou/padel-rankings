@@ -3,7 +3,7 @@ import { ComponentChildren } from "preact";
 interface ButtonProps {
   type?: "button" | "submit";
   children: ComponentChildren;
-  onClick?: VoidFunction
+  onClick?: VoidFunction;
 }
 
 export default function Button(

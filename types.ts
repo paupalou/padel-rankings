@@ -12,7 +12,8 @@ export type Ranking = {
   id: string;
   name: string;
   creator: string;
-  users: Player[];
+  players: Player[];
+  admins: string[];
   createdAt: Date;
 };
 

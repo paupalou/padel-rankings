@@ -10,8 +10,8 @@ export const handler: Handlers = {
   },
   async POST(req, _ctx) {
     const form = await req.formData();
-    const playerName = form.get("name")?.toString() ?? '';
-    const playerId = form.get("id")?.toString() ?? '';
+    const playerName = form.get("name")?.toString() ?? "";
+    const playerId = form.get("id")?.toString() ?? "";
 
     createPlayer({ name: playerName, id: playerId });
 
@@ -24,7 +24,7 @@ export const handler: Handlers = {
 export default function CreatePlayer() {
   return (
     <>
-      <form method="post" className="flex flex-col max-w-lg p-4">
+      <form method="post" class="flex flex-col max-w-lg p-4">
         <Input name="name" label="Name" />
         <Input name="id" label="Id" />
 

@@ -47,10 +47,14 @@ export async function listRankingGames(rankingId: string) {
   return games;
 }
 
-export async function create(game: Game, rankingId: string) {
-  const gameId = game.id?.length > 0 ? game.id : ulid();
+export async function create(game: Partial<Game>, rankingId: string) {
+  const gameId = ulid();
   const primaryKey = ["games", gameId];
   const byRankingKey = ["games_by_ranking", rankingId, gameId];
+
+  console.debug(game);
+  console.debug(gameId);
+  console.debug(rankingId);
 
   try {
     GameValidation.parse(game);
@@ -61,12 +65,14 @@ export async function create(game: Game, rankingId: string) {
     );
   }
 
-  const ok = await db.atomic()
+  const res = await db.atomic()
     .check({ key: primaryKey, versionstamp: null })
+    .check({ key: byRankingKey, versionstamp: null })
     .set(primaryKey, game)
     .set(byRankingKey, game)
     .commit();
-  if (!ok) throw new Error("Something went wrong.");
+
+  if (!res.ok) throw new Error("Something went wrong.");
 
   return `game ${gameId} created`;
 }

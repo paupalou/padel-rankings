@@ -10,8 +10,8 @@ export const handler: Handlers = {
   },
   async POST(req, _ctx) {
     const form = await req.formData();
-    const playerName = form.get("name")?.toString() ?? '';
-    const playerId = form.get("id")?.toString() ?? '';
+    const playerName = form.get("name")?.toString() ?? "";
+    const playerId = form.get("id")?.toString() ?? "";
 
     createPlayer({ name: playerName, id: playerId });
 

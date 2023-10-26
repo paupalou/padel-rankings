@@ -1,15 +1,20 @@
 import { Handlers } from "$fresh/server.ts";
 import { listRankingGames } from "services/games.ts";
+import { get as getRanking } from "services/rankings.ts";
 import { listById as listPlayersById } from "services/players.ts";
-import { Data, Game, Player } from "types";
+import { Data, Game, Player, Ranking } from "types";
+import { Component } from "preact";
+import Button from "components/button.tsx";
 
 export const handler: Handlers = {
-  async GET(req, ctx) {
+  async GET(_req, ctx) {
     const { rankingId } = ctx.params;
+    const ranking = await getRanking(rankingId);
     const games = await listRankingGames(rankingId);
     const playersById = await listPlayersById();
 
     return ctx.render({
+      ranking,
       games: games.sort((a, b) => {
         const gameATime = new Date(a.playedAt).getTime();
         const gameBTime = new Date(b.playedAt).getTime();
@@ -27,45 +32,62 @@ export const handler: Handlers = {
   },
 };
 
+function PlayerBadge({ children }: { children: Component | string }) {
+  return (
+    <span className="border border-dashed border-slate-400  bg-white rounded-lg px-2">
+      {children}
+    </span>
+  );
+}
+
 export default function Games(
-  { data: { games, players } }: Data<
-    { games: Game[]; players: Record<string, Player> }
+  { data: { games, players, ranking } }: Data<
+    { games: Game[]; players: Record<string, Player>; ranking: Ranking }
   >,
 ) {
   return (
-    <main className="p-1 xl:max-w-xl">
-      <ul className="border border-slate-300 p-2">
+    <section class="flex flex-col gap-2">
+      <h2>
+        <a class="text-cyan-800 mr-2" href={"/admin"}>Admin &gt;</a>
+        <a class="text-cyan-800 mr-2" href={"/admin/rankings"}>Rankings &gt;</a>
+        <a class="text-cyan-800 mr-2" href={"."}>{ranking.name} &gt;</a>
+        <span class="text-slate-800">Games</span>
+      </h2>
+      <Button type="button">
+        <a href="games/create">Create</a>
+      </Button>
+      <ul class="p-2">
         {games.map((game) => (
           <li
-            className="flex flex-col justify-between my-2 px-1 border border-slate-400"
+            class="flex flex-col justify-between my-2 border border-slate-400 rounded-lg"
             key={`player-${game.id}`}
           >
-            <div className="flex justify-between border-b border-slate-400 text-sm">
+            <div class="flex justify-between border-b border-slate-400 text-sm bg-slate-200 px-2 rounded-t-lg">
               <span>{new Date(game.playedAt).toLocaleDateString("es-ES")}</span>
               <span>{game.field}</span>
             </div>
 
-            <div className="flex gap-2 py-4 text-md justify-between">
-              <span className="flex gap-2 basis-2/6">
-                <span className="border border-dashed border-slate-300 rounded-lg px-2">
+            <div class="flex gap-2 py-4 text-md justify-between px-2">
+              <span class="flex gap-2 basis-2/6">
+                <PlayerBadge>
                   {players[game.team1[0]]["name"]}
-                </span>
-                <span className="border border-dashed border-slate-300 rounded-lg px-2">
+                </PlayerBadge>
+                <PlayerBadge>
                   {players[game.team1[1]]["name"]}
-                </span>
+                </PlayerBadge>
               </span>
-              <span className="text-slate-500">vs</span>
-              <span className="flex gap-2 basis-2/6">
-                <span className="border border-dashed border-slate-300 rounded-lg px-2">
+              <span>vs</span>
+              <span class="flex gap-2 basis-2/6">
+                <PlayerBadge>
                   {players[game.team2[0]]["name"]}
-                </span>
-                <span className="border border-dashed border-slate-300 rounded-lg px-2">
+                </PlayerBadge>
+                <PlayerBadge>
                   {players[game.team2[1]]["name"]}
-                </span>
+                </PlayerBadge>
               </span>
             </div>
 
-            <div className="flex gap-4 py-2 text-center mx-auto">
+            <div class="flex gap-4 py-2 text-center mx-auto font-bitter font-semibold text-lg">
               <span>
                 {game.set1[0]} - {game.set1[1]}
               </span>
@@ -84,6 +106,6 @@ export default function Games(
           </li>
         ))}
       </ul>
-    </main>
+    </section>
   );
 }
