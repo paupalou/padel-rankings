@@ -41,7 +41,7 @@ export const handler: Handlers = {
     }
 
     for (const file of files) {
-      await import(`migrations/${file}`);
+      await import(`../../../migrations/${file}`);
       lastMigration = file;
     }
 
