@@ -1,10 +1,14 @@
 import { Handlers } from "$fresh/server.ts";
-import { listRankingGames } from "services/games.ts";
-import { get as getRanking } from "services/rankings.ts";
-import { listById as listPlayersById } from "services/players.ts";
-import { Data, Game, Player, Ranking } from "types";
-import { Component } from "preact";
+
 import Button from "components/button.tsx";
+import PlayerBadge from "components/player-badge.tsx";
+import {
+  get as getRanking,
+  listGames as listRankingGames,
+} from "services/rankings.ts";
+import { listById as listPlayersById } from "services/players.ts";
+
+import type { Data, Game, Ranking } from "types";
 
 export const handler: Handlers = {
   async GET(_req, ctx) {
@@ -32,17 +36,10 @@ export const handler: Handlers = {
   },
 };
 
-function PlayerBadge({ children }: { children: Component | string }) {
-  return (
-    <span className="border border-dashed border-slate-400  bg-white rounded-lg px-2">
-      {children}
-    </span>
-  );
-}
 
 export default function Games(
-  { data: { games, players, ranking } }: Data<
-    { games: Game[]; players: Record<string, Player>; ranking: Ranking }
+  { data: { games, ranking } }: Data<
+    { games: Game[]; ranking: Ranking }
   >,
 ) {
   return (
@@ -70,19 +67,19 @@ export default function Games(
             <div class="flex gap-2 py-4 text-md justify-between px-2">
               <span class="flex gap-2 basis-2/6">
                 <PlayerBadge>
-                  {players[game.team1[0]]["name"]}
+                  {game.team1[0].name}
                 </PlayerBadge>
                 <PlayerBadge>
-                  {players[game.team1[1]]["name"]}
+                  {game.team1[1].name}
                 </PlayerBadge>
               </span>
               <span>vs</span>
               <span class="flex gap-2 basis-2/6">
                 <PlayerBadge>
-                  {players[game.team2[0]]["name"]}
+                  {game.team2[0].name}
                 </PlayerBadge>
                 <PlayerBadge>
-                  {players[game.team2[1]]["name"]}
+                  {game.team2[1].name}
                 </PlayerBadge>
               </span>
             </div>

@@ -3,6 +3,7 @@ import { Handlers } from "$fresh/server.ts";
 import { get as getRanking } from "services/rankings.ts";
 import { Data, Ranking } from "types";
 import Button from "components/button.tsx";
+import BreadCrumb from "components/breadcrumb.tsx";
 
 export const handler: Handlers = {
   async GET(req, ctx) {
@@ -16,11 +17,13 @@ export default function RankingAdminView(
 ) {
   return (
     <section class="flex flex-col gap-2">
-      <h2>
-        <a class="text-cyan-800 mr-2" href={"/admin"}>Admin &gt;</a>
-        <a class="text-cyan-800 mr-2" href={"."}>Rankings &gt;</a>
-        <span class="text-slate-800">{ranking.name}</span>
-      </h2>
+      <BreadCrumb
+        items={[
+          { href: "/admin", label: "Admin" },
+          { href: ".", label: "Rankings" },
+          { label: ranking.name },
+        ]}
+      />
 
       <Button>
         <a href={`${ranking.id}/games`}>Games</a>

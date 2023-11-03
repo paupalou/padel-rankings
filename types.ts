@@ -2,6 +2,12 @@ export type Data<T> = {
   data: T;
 };
 
+export type User = {
+  id: string;
+  email: string;
+  createdAt: Date;
+};
+
 export type Player = {
   id: string;
   name: string;
@@ -11,13 +17,14 @@ export type Player = {
 export type Ranking = {
   id: string;
   name: string;
-  creator: string;
+  creator: User;
   players: Player[];
-  admins: string[];
+  users: User[];
+  admins: User[];
   createdAt: Date;
 };
 
-export type Team = [string, string];
+export type Team = [Player, Player];
 export type SetScore = [number, number];
 
 export type Game = {
@@ -45,12 +52,19 @@ export type GoogleUserInfo = {
 } & UserType;
 
 export type PlayerPoints = {
+  id: string;
   name: string;
   points: number;
   score: number;
-  games: number;
+  matches: number;
   wins: number;
   loses: number;
   average: number;
   winratio: number;
+  games: Game[];
+};
+
+export type DatabaseMigration = {
+  createdAt: Date;
+  fileName: string;
 };

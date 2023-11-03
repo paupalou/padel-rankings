@@ -1,4 +1,5 @@
 import { AppProps } from "$fresh/server.ts";
+import Modal from "islands/modal.tsx";
 
 export default function App({ Component }: AppProps) {
   return (
@@ -20,6 +21,7 @@ export default function App({ Component }: AppProps) {
       </head>
       <body class="font-varela">
         <Component />
+        <Modal />
       </body>
     </html>
   );

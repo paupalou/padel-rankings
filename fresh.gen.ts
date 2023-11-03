@@ -6,26 +6,26 @@ import * as $0 from "./routes/_404.tsx";
 import * as $1 from "./routes/_app.tsx";
 import * as $2 from "./routes/_layout.tsx";
 import * as $3 from "./routes/admin/_middleware.ts";
-import * as $4 from "./routes/admin/index.tsx";
-import * as $5 from "./routes/admin/players/create.tsx";
-import * as $6 from "./routes/admin/players/index.tsx";
-import * as $7 from "./routes/admin/players/player.tsx";
-import * as $8 from "./routes/admin/players/remove/[playerId].tsx";
-import * as $9 from "./routes/admin/rankings/[rankingId].tsx";
-import * as $10 from "./routes/admin/rankings/[rankingId]/games/conv.tsx";
-import * as $11 from "./routes/admin/rankings/[rankingId]/games/create.tsx";
-import * as $12 from "./routes/admin/rankings/[rankingId]/games/index.tsx";
-import * as $13 from "./routes/admin/rankings/[rankingId]/players/index.tsx";
-import * as $14 from "./routes/admin/rankings/create.tsx";
-import * as $15 from "./routes/admin/rankings/index.tsx";
-import * as $16 from "./routes/api/games/[id].ts";
-import * as $17 from "./routes/api/games/index.ts";
-import * as $18 from "./routes/api/players/[id].ts";
-import * as $19 from "./routes/api/players/index.ts";
-import * as $20 from "./routes/index.tsx";
-import * as $21 from "./routes/ranking/[rankingId].tsx";
-import * as $$0 from "./islands/player-selection.tsx";
-import * as $$1 from "./islands/set-selection.tsx";
+import * as $4 from "./routes/admin/database/migrate.tsx";
+import * as $5 from "./routes/admin/index.tsx";
+import * as $6 from "./routes/admin/players/create.tsx";
+import * as $7 from "./routes/admin/players/index.tsx";
+import * as $8 from "./routes/admin/players/player.tsx";
+import * as $9 from "./routes/admin/players/remove/[playerId].tsx";
+import * as $10 from "./routes/admin/rankings/[rankingId].tsx";
+import * as $11 from "./routes/admin/rankings/[rankingId]/games/conv.tsx";
+import * as $12 from "./routes/admin/rankings/[rankingId]/games/create.tsx";
+import * as $13 from "./routes/admin/rankings/[rankingId]/games/index.tsx";
+import * as $14 from "./routes/admin/rankings/[rankingId]/players/index.tsx";
+import * as $15 from "./routes/admin/rankings/create.tsx";
+import * as $16 from "./routes/admin/rankings/index.tsx";
+import * as $17 from "./routes/index.tsx";
+import * as $18 from "./routes/invite/[inviteLinkId].tsx";
+import * as $19 from "./routes/ranking/[rankingId].tsx";
+import * as $$0 from "./islands/modal.tsx";
+import * as $$1 from "./islands/player-data.tsx";
+import * as $$2 from "./islands/player-selection.tsx";
+import * as $$3 from "./islands/set-selection.tsx";
 
 const manifest = {
   routes: {
@@ -33,28 +33,28 @@ const manifest = {
     "./routes/_app.tsx": $1,
     "./routes/_layout.tsx": $2,
     "./routes/admin/_middleware.ts": $3,
-    "./routes/admin/index.tsx": $4,
-    "./routes/admin/players/create.tsx": $5,
-    "./routes/admin/players/index.tsx": $6,
-    "./routes/admin/players/player.tsx": $7,
-    "./routes/admin/players/remove/[playerId].tsx": $8,
-    "./routes/admin/rankings/[rankingId].tsx": $9,
-    "./routes/admin/rankings/[rankingId]/games/conv.tsx": $10,
-    "./routes/admin/rankings/[rankingId]/games/create.tsx": $11,
-    "./routes/admin/rankings/[rankingId]/games/index.tsx": $12,
-    "./routes/admin/rankings/[rankingId]/players/index.tsx": $13,
-    "./routes/admin/rankings/create.tsx": $14,
-    "./routes/admin/rankings/index.tsx": $15,
-    "./routes/api/games/[id].ts": $16,
-    "./routes/api/games/index.ts": $17,
-    "./routes/api/players/[id].ts": $18,
-    "./routes/api/players/index.ts": $19,
-    "./routes/index.tsx": $20,
-    "./routes/ranking/[rankingId].tsx": $21,
+    "./routes/admin/database/migrate.tsx": $4,
+    "./routes/admin/index.tsx": $5,
+    "./routes/admin/players/create.tsx": $6,
+    "./routes/admin/players/index.tsx": $7,
+    "./routes/admin/players/player.tsx": $8,
+    "./routes/admin/players/remove/[playerId].tsx": $9,
+    "./routes/admin/rankings/[rankingId].tsx": $10,
+    "./routes/admin/rankings/[rankingId]/games/conv.tsx": $11,
+    "./routes/admin/rankings/[rankingId]/games/create.tsx": $12,
+    "./routes/admin/rankings/[rankingId]/games/index.tsx": $13,
+    "./routes/admin/rankings/[rankingId]/players/index.tsx": $14,
+    "./routes/admin/rankings/create.tsx": $15,
+    "./routes/admin/rankings/index.tsx": $16,
+    "./routes/index.tsx": $17,
+    "./routes/invite/[inviteLinkId].tsx": $18,
+    "./routes/ranking/[rankingId].tsx": $19,
   },
   islands: {
-    "./islands/player-selection.tsx": $$0,
-    "./islands/set-selection.tsx": $$1,
+    "./islands/modal.tsx": $$0,
+    "./islands/player-data.tsx": $$1,
+    "./islands/player-selection.tsx": $$2,
+    "./islands/set-selection.tsx": $$3,
   },
   baseUrl: import.meta.url,
 };

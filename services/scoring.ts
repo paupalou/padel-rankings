@@ -15,10 +15,11 @@ export function initPlayerPoints(
       [curr.id]: {
         name: curr.name,
         points: 0,
-        games: 0,
+        matches: 0,
         wins: 0,
         loses: 0,
         average: 0,
+        games: [],
       },
     };
   }, {});
@@ -37,13 +38,13 @@ function assignSetPoints({ playerPoints, set, teams }: {
   const team2_won_set = gameDifference < 0;
 
   if (team1_won_set) {
-    for (const playerId of team1) {
-      playerPoints[playerId].points += rules.set_value + (gameDifference - 2);
+    for (const player of team1) {
+      playerPoints[player.id].points += rules.set_value + (gameDifference - 2);
     }
     return 1;
   } else if (team2_won_set) {
-    for (const playerId of team2) {
-      playerPoints[playerId].points += rules.set_value +
+    for (const player of team2) {
+      playerPoints[player.id].points += rules.set_value +
         Math.abs(gameDifference) - 2;
     }
     return 2;
@@ -75,21 +76,23 @@ export function getRanking(
       gameWinner = assignSetPoints({ set: game.set3, playerPoints, teams });
     }
 
-    for (const playerId of game.team1) {
-      playerPoints[playerId].games += 1;
+    for (const player of game.team1) {
+      playerPoints[player.id].matches += 1;
+      playerPoints[player.id].games = [...playerPoints[player.id].games, game];
       if (gameWinner === 1) {
-        playerPoints[playerId].wins += 1;
+        playerPoints[player.id].wins += 1;
       } else {
-        playerPoints[playerId].loses += 1;
+        playerPoints[player.id].loses += 1;
       }
     }
 
-    for (const playerId of game.team2) {
-      playerPoints[playerId].games += 1;
+    for (const player of game.team2) {
+      playerPoints[player.id].matches += 1;
+      playerPoints[player.id].games = [...playerPoints[player.id].games, game];
       if (gameWinner === 2) {
-        playerPoints[playerId].wins += 1;
+        playerPoints[player.id].wins += 1;
       } else {
-        playerPoints[playerId].loses += 1;
+        playerPoints[player.id].loses += 1;
       }
     }
   });
@@ -97,7 +100,7 @@ export function getRanking(
   const average = Object.keys(playerPoints).map((playerId) => {
     const playerData = playerPoints[playerId];
     const average = Math.round(
-      playerData.games === 0 ? 0 : playerData.points / playerData.games,
+      playerData.matches === 0 ? 0 : playerData.points / playerData.matches,
     );
 
     return {
@@ -108,9 +111,9 @@ export function getRanking(
         playerData.points -
           (playerData.loses > 0 ? average * playerData.loses : 0),
       ),
-      winratio: playerData.games === 0
+      winratio: playerData.matches === 0
         ? 0
-        : Math.round(playerData.wins / playerData.games * 100),
+        : Math.round(playerData.wins / playerData.matches * 100),
     };
   });
 

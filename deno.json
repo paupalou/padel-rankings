@@ -5,26 +5,12 @@
     "start": "deno run -A --watch=static/,routes/ --unstable dev.ts",
     "build": "deno run -A dev.ts build",
     "preview": "deno run -A main.ts",
-    "update": "deno run -A -r https://fresh.deno.dev/update ."
+    "update": "deno run -A -r https://fresh.deno.dev/update .",
+    "migration": "deno run -A migration.ts"
   },
-  "lint": {
-    "rules": {
-      "tags": [
-        "fresh",
-        "recommended"
-      ]
-    },
-    "exclude": [
-      "_fresh"
-    ]
-  },
-  "fmt": {
-    "exclude": [
-      "_fresh"
-    ]
-  },
+  "lint": { "rules": { "tags": ["fresh", "recommended"] } },
   "imports": {
-    "$fresh/": "https://deno.land/x/fresh@1.5.1/",
+    "$fresh/": "https://deno.land/x/fresh@1.5.2/",
     "$std/": "https://deno.land/std@0.193.0/",
     "$kv_auth": "https://deno.land/x/deno_kv_oauth@v0.9.1/mod.ts",
     "$zod": "https://deno.land/x/zod@v3.16.1/mod.ts",
@@ -40,7 +26,9 @@
     "islands/": "./islands/",
     "services/": "./services/",
     "types": "./types.ts",
-    "env": "./env.ts"
+    "env": "./env.ts",
+    "migrations/": "./migrations/",
+    "signals": "./signals.ts"
   },
   "compilerOptions": { "jsx": "react-jsx", "jsxImportSource": "preact" },
   "exclude": ["**/_fresh/*"]

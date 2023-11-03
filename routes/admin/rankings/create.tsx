@@ -1,11 +1,15 @@
 import { Handlers } from "$fresh/server.ts";
+import { getSessionId } from "$kv_auth";
+
 import Input from "components/input.tsx";
 import Button from "components/button.tsx";
+import Section from "components/section.tsx";
+import BreadCrumb from "components/breadcrumb.tsx";
 import db from "services/database.ts";
-
 import { create as createRanking } from "services/rankings.ts";
-import { getSessionId } from "$kv_auth";
-import { GoogleUserInfo } from "types";
+import { getUser } from "services/auth.ts";
+
+import type { GoogleUserInfo, User } from "types";
 
 export const handler: Handlers = {
   async GET(_req, ctx) {
@@ -23,13 +27,15 @@ export const handler: Handlers = {
       const form = await req.formData();
       const rankingName = form.get("name")?.toString() ?? "";
       const rankingId = form.get("id")?.toString() ?? "";
+      const creator = await getUser(userSession.value?.id!) as User;
 
       createRanking({
         name: rankingName,
         id: rankingId,
-        creator: userSession.value?.email!,
+        creator,
         players: [],
         admins: [],
+        users: [],
         createdAt: new Date(),
       });
 
@@ -44,13 +50,20 @@ export const handler: Handlers = {
 
 export default function CreateRanking() {
   return (
-    <>
-      <form method="post" className="flex flex-col max-w-lg p-4">
+    <Section>
+      <BreadCrumb
+        items={[
+          { href: "/admin", label: "Admin" },
+          { href: ".", label: "Rankings" },
+          { label: "Create" },
+        ]}
+      />
+      <form method="post" className="flex flex-col max-w-lg p-4 gap-1">
         <Input name="name" label="Name" />
         <Input name="id" label="Id" />
 
-        <Button type="submit">Create</Button>
+        <Button className="mt-4" type="submit">Create</Button>
       </form>
-    </>
+    </Section>
   );
 }

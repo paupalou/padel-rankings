@@ -1,5 +1,7 @@
 import { ComponentChildren } from "preact";
+
 import { PlayerPoints } from "types";
+import PlayerData from "islands/player-data.tsx";
 
 function Position({ children }: { children: ComponentChildren }) {
   return (
@@ -24,7 +26,7 @@ export function RankingRow(
   { player, position }: { player: PlayerPoints; position: number },
 ) {
   return (
-    <button class="flex w-full h-12 gap-2 items-center bg-turque/30 rounded-lg justify-between drop-shadow-md">
+    <PlayerData player={player}>
       <div class="flex items-center h-full gap-4">
         <Position>{position}</Position>
         <span class="max-w-[150px] text-lg font-varela truncate text-slate-800 tracking-wide">
@@ -43,7 +45,7 @@ export function RankingRow(
         <Stat label="points" value={player.points} />
         <Stat label="ratio" value={`${player.winratio}%`} className="w-12" />
       </div>
-    </button>
+    </PlayerData>
   );
 }
 

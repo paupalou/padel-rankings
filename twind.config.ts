@@ -1,5 +1,5 @@
 import { defineConfig, Preset } from "twind/core@1.1.3";
-import presetTailwind from "twind/preset-tailwind@1.1.4";
+import presetTailwind, { TailwindTheme } from "twind/preset-tailwind@1.1.4";
 import presetAutoprefix from "twind/preset-autoprefix@1.0.7";
 
 export default {
@@ -22,7 +22,7 @@ export default {
           main: "url('/mainbg.jpeg')",
         },
       },
-    },
+    } as Partial<TailwindTheme>,
   }),
   selfURL: import.meta.url,
 };

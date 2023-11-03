@@ -1,9 +1,6 @@
 import { Handlers } from "$fresh/server.ts";
-import { listRankingGames } from "services/games.ts";
-import { gerenateInviteLink, get as getRanking } from "services/rankings.ts";
-import { listById as listPlayersById } from "services/players.ts";
-import { Data, Game, Player, Ranking } from "types";
-import { Component } from "preact";
+import { generateInviteLink, get as getRanking } from "services/rankings.ts";
+import { Data, Ranking } from "types";
 import Button from "components/button.tsx";
 
 export const handler: Handlers = {
@@ -14,10 +11,10 @@ export const handler: Handlers = {
     return ctx.render({ ranking });
   },
 
-  async POST(req, ctx) {
+  async POST(_req, ctx) {
     const { rankingId } = ctx.params;
     const ranking = await getRanking(rankingId);
-    const inviteLink = await gerenateInviteLink(rankingId);
+    const inviteLink = await generateInviteLink(rankingId);
 
     return ctx.render({ ranking, inviteLink });
   },
