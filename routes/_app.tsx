@@ -15,7 +15,7 @@ export default function App({ Component }: AppProps) {
           crossorigin="true"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Varela+Round&family=Bitter:ital,wght@1,400;1,600;1,800&display=optional"
+          href="https://fonts.googleapis.com/css2?family=Varela+Round&family=Bitter:ital,wght@1,400;1,600;1,800&display=swap"
           rel="stylesheet"
         />
       </head>
