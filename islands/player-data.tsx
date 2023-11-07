@@ -75,7 +75,7 @@ function GameCard({ game, player, ...rest }: { game: Game; player: Player }) {
           )}
         </span>
       </div>
-      <div class="flex basis-full justify-center gap-4 py-2 text-center mx-auto font-bitter text-lg">
+      <div class="flex basis-full justify-center gap-4 py-1 text-center mx-auto font-bitter text-lg">
         <span>
           <span
             className={cx("font-semibold", {

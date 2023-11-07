@@ -45,7 +45,7 @@ export default function Modal() {
       >
         <div
           className={cx(
-            "bg-white mx-auto h-fit max-h-[100%] w-11/12 md:w-5/6 lg:w-4/6 p-2 pb-4 rounded-lg transition-[all] overflow-auto origin-right",
+            "bg-white mx-auto h-fit max-h-[515px] w-11/12 md:w-5/6 lg:w-4/6 p-2 pb-4 rounded-lg transition-[all] overflow-auto origin-right",
             {
               "translate-x-0 opacity-100": isOpen.value,
               "-translate-x-10 opacity-0": !isOpen.value,
