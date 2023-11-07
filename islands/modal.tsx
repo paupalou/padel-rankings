@@ -38,29 +38,19 @@ export default function Modal() {
         className={cx(
           "fixed flex top-0 left-0 h-full py-[10%] w-full lg:max-w-xl transition-[all]",
           {
-            "bg-black/70 z-10": isOpen.value,
-            "-z-[1]": !isOpen.value,
+            "translate-x-0 bg-black/70": isOpen.value,
+            "-translate-x-96": !isOpen.value,
           },
         )}
       >
         <div
           className={cx(
-            "bg-white mx-auto h-fit max-h-[515px] w-11/12 md:w-5/6 lg:w-4/6 p-2 pb-4 rounded-lg transition-[all] overflow-auto origin-right",
-            {
-              "translate-x-0 opacity-100": isOpen.value,
-              "-translate-x-10 opacity-0": !isOpen.value,
-            },
+            "flex flex-col bg-white mx-auto h-fit max-h-[515px] w-11/12 md:w-5/6 lg:w-4/6 p-2 pb-4 rounded-lg overflow-auto",
           )}
         >
           <button
             type="button"
-            className={cx(
-              "absolute origin-left right-3 top-3 transition-[opacity]",
-              {
-                "opacity-100": isOpen.value,
-                "opacity-0": !isOpen.value,
-              },
-            )}
+            className="self-end pt-2 pr-2 z-10"
             onClick={closeModal}
           >
             <CloseIcon className="w-3.5 h-3.5 fill-slate-600" />

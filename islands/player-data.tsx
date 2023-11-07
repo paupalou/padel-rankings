@@ -10,7 +10,6 @@ import WinIcon from "components/icons/win.tsx";
 
 function GameCard({ game, player, ...rest }: { game: Game; player: Player }) {
   const isPlayerInTeam1 = !!game.team1.find((p) => p.id === player.id);
-  const isPlayerInTeam2 = !isPlayerInTeam1;
 
   const team1Won = [
     game.set1[0] - game.set1[1],
@@ -159,7 +158,7 @@ function PlayerGames({ player }: { player: PlayerPoints }) {
 
   return (
     <div className="flex flex-wrap">
-      <h3 className="basis-full text-center text-lg  mb-4">
+      <h3 className="basis-full text-center text-lg -mt-[20px] mb-3">
         <span className="font-semibold">{player.name}</span>'s games
       </h3>
       <ul className="w-full flex flex-col gap-2">
