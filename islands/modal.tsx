@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useRef } from "preact/hooks";
-import { cx } from "twind/core@1.1.3";
+import { useCallback, useEffect, useRef } from "preact/hooks"; import { cx } from "twind/core@1.1.3";
 
 import { isOpen } from "signals";
 import CloseIcon from "components/icons/close.tsx";
@@ -7,12 +6,7 @@ import CloseIcon from "components/icons/close.tsx";
 export default function Modal() {
   const ref = useRef<HTMLDivElement>(null);
 
-  const closeModal = useCallback(() => {
-    isOpen.value = false;
-    // adding a timeout to remove content because of the close animation
-    setTimeout(() => ref.current!.innerHTML = "", 150);
-  }, []);
-
+  const closeModal = useCallback(() => isOpen.value = false, []);
   useEffect(() => {
     const checkIfClickedOutside = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
@@ -38,8 +32,8 @@ export default function Modal() {
         className={cx(
           "fixed flex top-0 left-0 h-full py-[10%] w-full lg:max-w-xl transition-[all]",
           {
-            "translate-x-0 bg-black/70": isOpen.value,
-            "-translate-x-96": !isOpen.value,
+            "translate-x-0 bg-black/80 ease-in": isOpen.value,
+            "-translate-x-96 ease-out": !isOpen.value,
           },
         )}
       >
