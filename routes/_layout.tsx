@@ -16,6 +16,7 @@ type UserProps = {
 function User(
   { user, onAdminPage }: { user: UserProps; onAdminPage: boolean },
 ) {
+console.debug(user)
   return (
     <div className="flex py-2 justify-between items-center">
       <span className="flex text-sm gap-1">
@@ -25,7 +26,7 @@ function User(
         {user.isAdmin &&
           (
             <Button>
-              <a href={onAdminPage ? "/" : "/admin"}>
+              <a href={onAdminPage ? "/" : `${getEnv("RANKING_ROOT_URL")}/admin`}>
                 {onAdminPage ? "Home" : "Admin"}
               </a>
             </Button>

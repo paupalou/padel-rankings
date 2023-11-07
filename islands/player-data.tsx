@@ -1,4 +1,4 @@
-import { ComponentChildren, hydrate } from "preact";
+import { ComponentChildren, hydrate, render } from "preact";
 import { useCallback } from "preact/hooks";
 import { cx } from "twind/core@1.1.3";
 
@@ -175,12 +175,12 @@ export default function PlayerData(
 ) {
   const toggle = useCallback(() => {
     isOpen.value = !isOpen.value;
-    // if (isOpen.value) {
-    //   hydrate(
-    //     <PlayerGames player={player} />,
-    //     document.getElementById("modal-content")!,
-    //   );
-    // }
+    if (isOpen.value) {
+      render(
+        <PlayerGames player={player} />,
+        document.getElementById("modal-content")!,
+      );
+    }
   }, [isOpen]);
 
   const openPlayerInfo = useCallback((e: MouseEvent) => {

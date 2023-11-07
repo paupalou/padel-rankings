@@ -14,13 +14,16 @@ export default function Modal() {
     const target = e.target as HTMLElement;
 
     if (
-        isOpen.value && contentRef.current &&
-        !contentRef.current.contains(target)
-       ) {
+      isOpen.value && contentRef.current &&
+      !contentRef.current.contains(target)
+    ) {
       closeModal();
     }
   }, []);
-  const hideOnResize = useCallback(() => portalRef.current?.classList.add("hidden"), []);
+  const hideOnResize = useCallback(
+    () => portalRef.current?.classList.add("hidden"),
+    [],
+  );
 
   useEffect(() => {
     // attach listeners
@@ -45,10 +48,10 @@ export default function Modal() {
       id="portal"
       ref={portalRef}
       className={cx(
-        "fixed top-0 h-full w-full lg:max-w-xl  bg-black/80 transition-transform",
+        "fixed top-0 h-screen w-screen lg:max-w-xl  bg-black/80 transition-transform",
         {
-          "translate-x-0 ease-out": isOpen.value,
-          "-translate-x-[100vw] ease-in": !isOpen.value,
+          "scale-100": isOpen.value,
+          "scale-0": !isOpen.value,
         },
       )}
     >
@@ -56,21 +59,19 @@ export default function Modal() {
         <div className="flex flex-col bg-white mx-auto h-fit max-h-[510px] w-11/12 md:w-5/6 lg:w-4/6 p-2 pb-4 rounded-lg overflow-auto">
           <button
             type="button"
-            className="self-end pt-2 pr-2 z-10"
             onClick={closeModal}
+            className="self-end pt-2 pr-2 z-10"
           >
             <CloseIcon className="w-3.5 h-3.5 fill-slate-600" />
           </button>
           <div
             id="modal-content"
             ref={contentRef}
-            className={cx("transition-[opacity]", {
-              "opacity-100": isOpen.value,
-              "opacity-0": !isOpen.value,
+            className={cx({
+              "scale-100": isOpen.value,
+              "scale-0": !isOpen.value,
             })}
-          >
-            Hola Chale
-          </div>
+          />
         </div>
       </div>
     </div>
