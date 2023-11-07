@@ -8,7 +8,7 @@ export default {
     preflight: {
       // Import external stylesheet
       "@import":
-        `url('https://fonts.googleapis.com/css2?family=Varela+Round&family=Bitter:ital,wght@1,400;1,600;1,800&display=swap')`,
+        `url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap@family=Bitter:ital,wght@1,400;1,600;1,800&display=swap')`,
       // Declare font face
       "@font-face": [
         {

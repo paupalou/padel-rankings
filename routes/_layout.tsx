@@ -55,7 +55,7 @@ export default async function Layout(req: Request, ctx: LayoutContext) {
   }
 
   return (
-    <main class="px-2 xl:max-w-xl font-varela h-screen relative">
+    <main class="px-2 lg:max-w-xl font-varela h-screen relative">
       <User user={user} onAdminPage={onAdminPage} />
       <div class="absolute bg-[#e5f2e8] bg-main bg-no-repeat bg-center bg-contain h-full w-full top-0 left-0 opacity-30 z-[-1]" />
       <ctx.Component />

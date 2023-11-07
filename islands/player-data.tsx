@@ -1,15 +1,32 @@
 import { ComponentChildren, hydrate } from "preact";
 import { useCallback } from "preact/hooks";
+import { cx } from "twind/core@1.1.3";
 
 import PlayerBadge from "components/player-badge.tsx";
 import { isOpen } from "signals";
 
 import type { Game, Player, PlayerPoints } from "types";
+import WinIcon from "components/icons/win.tsx";
 
 function GameCard({ game, player, ...rest }: { game: Game; player: Player }) {
+  const isPlayerInTeam1 = !!game.team1.find((p) => p.id === player.id);
+  const isPlayerInTeam2 = !isPlayerInTeam1;
+
+  const team1Won = [
+    game.set1[0] - game.set1[1],
+    game.set2[0] - game.set2[1],
+    game.set3 ? game.set3[0] - game.set3[1] : 0,
+  ].filter((res) => res > 0).length >= 2;
+  const team2Won = !team1Won;
+
+  const playerWinsMatch = isPlayerInTeam1 ? team1Won : team2Won;
+
   return (
     <li
-      className="flex flex-wrap gap-2 bg-turque/10 rounded-lg justify-center"
+      className={cx("flex flex-wrap gap-2 rounded-lg justify-center relative", {
+        "bg-lime-400/30": playerWinsMatch,
+        "bg-turque/10": !playerWinsMatch,
+      })}
       {...rest}
     >
       <div className="flex justify-between items-center w-full bg-blue text-white rounded-t-lg text-sm font-normal px-2 py-1">
@@ -25,7 +42,10 @@ function GameCard({ game, player, ...rest }: { game: Game; player: Player }) {
         </span>
       </div>
       <div className="grid grid-cols-9 w-full items-center justify-between px-2">
-        <span className="flex gap-1 md:gap-2 justify-center col-span-4">
+        <span className="flex gap-1 md:gap-2 justify-center col-span-4 items-center">
+          {team1Won && (
+            <WinIcon className="h-5 top-10 left-2" />
+          )}
           <PlayerBadge
             className={player.id === game.team1[0].id ? "bg-[#ffe1a8]" : ""}
           >
@@ -39,7 +59,7 @@ function GameCard({ game, player, ...rest }: { game: Game; player: Player }) {
         </span>
         <span className="text-xs px-2 text-center">vs</span>
 
-        <span class="flex gap-1 md:gap-2 justify-center col-span-4">
+        <span class="flex gap-1 md:gap-2 justify-center col-span-4 items-center">
           <PlayerBadge
             className={player.id === game.team2[0].id ? "bg-[#ffe1a8]" : ""}
           >
@@ -50,22 +70,27 @@ function GameCard({ game, player, ...rest }: { game: Game; player: Player }) {
           >
             {game.team2[1].name}
           </PlayerBadge>
+          {team2Won && (
+            <WinIcon className="h-5 top-10 right-2" />
+          )}
         </span>
       </div>
       <div class="flex basis-full justify-center gap-4 py-2 text-center mx-auto font-bitter text-lg">
         <span>
           <span
-            className={game.set1[0] > game.set1[1]
-              ? "font-bold text-slate-700"
-              : "font-semibold text-slate-600"}
+            className={cx("font-semibold", {
+              "text-slate-700": game.set1[0] > game.set1[1],
+              "text-slate-500": game.set1[0] < game.set1[1],
+            })}
           >
             {game.set1[0]}
           </span>
-          <span className="px-1 font-semibold">-</span>
+          <span className="text-slate-600 px-1 font-semibold">-</span>
           <span
-            className={game.set1[1] > game.set1[0]
-              ? "font-bold text-slate-700"
-              : "font-semibold text-slate-600"}
+            className={cx("font-semibold", {
+              "text-slate-700": game.set1[0] < game.set1[1],
+              "text-slate-500": game.set1[0] > game.set1[1],
+            })}
           >
             {game.set1[1]}
           </span>
@@ -73,17 +98,19 @@ function GameCard({ game, player, ...rest }: { game: Game; player: Player }) {
 
         <span>
           <span
-            className={game.set2[0] > game.set2[1]
-              ? "font-bold text-slate-700"
-              : "font-semibold text-slate-600"}
+            className={cx("font-semibold", {
+              "text-slate-700": game.set2[0] > game.set2[1],
+              "text-slate-500": game.set2[0] < game.set2[1],
+            })}
           >
-            {game.set1[0]}
+            {game.set2[0]}
           </span>
-          <span className="px-1 font-semibold">-</span>
+          <span className="text-slate-600 px-1 font-semibold">-</span>
           <span
-            className={game.set2[1] > game.set2[0]
-              ? "font-bold text-slate-700"
-              : "font-semibold text-slate-600"}
+            className={cx("font-semibold", {
+              "text-slate-700": game.set2[0] < game.set2[1],
+              "text-slate-500": game.set2[0] > game.set2[1],
+            })}
           >
             {game.set2[1]}
           </span>
@@ -93,17 +120,19 @@ function GameCard({ game, player, ...rest }: { game: Game; player: Player }) {
           (
             <span>
               <span
-                className={game.set3[0] > game.set3[1]
-                  ? "font-bold text-slate-700"
-                  : "font-semibold text-slate-600"}
+                className={cx("font-semibold", {
+                  "text-slate-700": game.set3[0] > game.set3[1],
+                  "text-slate-500": game.set3[0] < game.set3[1],
+                })}
               >
                 {game.set3[0]}
               </span>
-              <span className="px-1 font-semibold">-</span>
+              <span className="text-slate-600 px-1 font-semibold">-</span>
               <span
-                className={game.set3[1] > game.set3[0]
-                  ? "font-bold text-slate-700"
-                  : "font-semibold text-slate-600"}
+                className={cx("font-semibold", {
+                  "text-slate-700": game.set3[0] < game.set3[1],
+                  "text-slate-500": game.set3[0] > game.set3[1],
+                })}
               >
                 {game.set3[1]}
               </span>
@@ -115,13 +144,26 @@ function GameCard({ game, player, ...rest }: { game: Game; player: Player }) {
 }
 
 function PlayerGames({ player }: { player: PlayerPoints }) {
+  const sortedGames = player.games.sort((a, b) => {
+    const gameATime = new Date(a.playedAt).getTime();
+    const gameBTime = new Date(b.playedAt).getTime();
+
+    if (gameATime > gameBTime) {
+      return -1;
+    } else if (gameBTime > gameATime) {
+      return 1;
+    }
+
+    return 0;
+  });
+
   return (
     <div className="flex flex-wrap">
       <h3 className="basis-full text-center text-lg  mb-4">
         <span className="font-semibold">{player.name}</span>'s games
       </h3>
       <ul className="w-full flex flex-col gap-2">
-        {player.games.map((game) => (
+        {sortedGames.map((game) => (
           <GameCard key={game.id} game={game} player={player} />
         ))}
       </ul>

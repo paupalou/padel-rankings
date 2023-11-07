@@ -3,7 +3,7 @@ import { listById as listPlayers } from "services/players.ts";
 
 import type { Game } from "types";
 
-const filename = new URL('', import.meta.url).pathname;
+// const filename = new URL("", import.meta.url).pathname;
 const atomic = db.atomic();
 const players = await listPlayers();
 
@@ -35,4 +35,3 @@ for await (const res of db.list<Game>({ prefix: ["games"] })) {
 }
 
 await atomic.commit();
-console.debug(`executed database migration ${filename}`)
