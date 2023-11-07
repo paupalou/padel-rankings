@@ -68,7 +68,9 @@ export default function Modal() {
               "opacity-100": isOpen.value,
               "opacity-0": !isOpen.value,
             })}
-          />
+          >
+            Hola Chale
+          </div>
         </div>
       </div>
     </div>

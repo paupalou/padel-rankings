@@ -175,12 +175,12 @@ export default function PlayerData(
 ) {
   const toggle = useCallback(() => {
     isOpen.value = !isOpen.value;
-    if (isOpen.value) {
-      hydrate(
-        <PlayerGames player={player} />,
-        document.getElementById("modal-content")!,
-      );
-    }
+    // if (isOpen.value) {
+    //   hydrate(
+    //     <PlayerGames player={player} />,
+    //     document.getElementById("modal-content")!,
+    //   );
+    // }
   }, [isOpen]);
 
   const openPlayerInfo = useCallback((e: MouseEvent) => {
