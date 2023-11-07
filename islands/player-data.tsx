@@ -42,9 +42,9 @@ function GameCard({ game, player, ...rest }: { game: Game; player: Player }) {
         </span>
       </div>
       <div className="grid grid-cols-9 w-full items-center justify-between px-2">
-        <span className="flex gap-1 md:gap-2 justify-center col-span-4 items-center">
+        <span className="flex gap-1 md:gap-2 justify-end col-span-4 items-center">
           {team1Won && (
-            <WinIcon className="h-5 top-10 left-2" />
+            <WinIcon className="h-5 top-10 left-2 shrink-0 mr-3" />
           )}
           <PlayerBadge
             className={player.id === game.team1[0].id ? "bg-[#ffe1a8]" : ""}
@@ -59,7 +59,7 @@ function GameCard({ game, player, ...rest }: { game: Game; player: Player }) {
         </span>
         <span className="text-xs px-2 text-center">vs</span>
 
-        <span class="flex gap-1 md:gap-2 justify-center col-span-4 items-center">
+        <span class="flex gap-1 md:gap-2 justify-start col-span-4 items-center">
           <PlayerBadge
             className={player.id === game.team2[0].id ? "bg-[#ffe1a8]" : ""}
           >
@@ -71,7 +71,7 @@ function GameCard({ game, player, ...rest }: { game: Game; player: Player }) {
             {game.team2[1].name}
           </PlayerBadge>
           {team2Won && (
-            <WinIcon className="h-5 top-10 right-2" />
+            <WinIcon className="h-5 top-10 right-2 shrink-0 ml-3" />
           )}
         </span>
       </div>
