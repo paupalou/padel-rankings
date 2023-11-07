@@ -48,15 +48,15 @@ export default function Modal() {
       id="portal"
       ref={portalRef}
       className={cx(
-        "fixed top-0 h-screen w-screen lg:max-w-xl  bg-black/80 transition-transform",
+        "fixed top-0 h-screen w-screen bg-black/80 transition-transform ease-smooth duration-300",
         {
-          "scale-100": isOpen.value,
-          "scale-0": !isOpen.value,
+          "translate-x-0": isOpen.value,
+          "-translate-x-[100vw]": !isOpen.value,
         },
       )}
     >
       <div className="flex py-[10%] h-full">
-        <div className="flex flex-col bg-white mx-auto h-fit max-h-[510px] w-11/12 md:w-5/6 lg:w-4/6 p-2 pb-4 rounded-lg overflow-auto">
+        <div className="flex flex-col bg-white mx-auto h-fit max-h-[510px] w-[90%] md:max-w-[70%] lg:max-w-[40%] p-2 pb-4 rounded-lg overflow-auto">
           <button
             type="button"
             onClick={closeModal}
@@ -67,10 +67,6 @@ export default function Modal() {
           <div
             id="modal-content"
             ref={contentRef}
-            className={cx({
-              "scale-100": isOpen.value,
-              "scale-0": !isOpen.value,
-            })}
           />
         </div>
       </div>

@@ -7,7 +7,7 @@ export default function PlayerBadge(
   return (
     <span
       className={cx(
-        "bg-turque/30 border-slate-400 rounded-lg px-2 py-1 text-sm",
+        "bg-turque/30 border-slate-400 rounded-lg px-1.5 py-1 text-sm",
         className,
       )}
     >

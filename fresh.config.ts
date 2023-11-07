@@ -48,7 +48,6 @@ const googleOauth = (config: OAuth2ClientConfig) => {
         handler: async (req: Request) => {
           const sessionId = getSessionId(req);
           await deleteUserSession(sessionId!);
-          // res.referrer = "/"
           return signOut(req);
         },
       },
