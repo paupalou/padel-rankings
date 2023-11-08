@@ -58,13 +58,13 @@ export async function consumeInviteLink(inviteLinkId: string, email: string) {
     const ranking = await get(rankingId as string);
     const user = await getUser(email);
 
-    await db.atomic()
-      .set(["rankings", rankingId], {
-        ...ranking,
-        users: [...(ranking?.users ?? []), user],
-      })
-      .delete([...inviteLinkKey, rankingId])
-      .commit();
+    // await db.atomic()
+    //   .set(["rankings", rankingId], {
+    //     ...ranking,
+    //     users: [...(ranking?.users ?? []), user],
+    //   })
+    //   .delete([...inviteLinkKey, rankingId])
+    //   .commit();
     return true;
   }
 

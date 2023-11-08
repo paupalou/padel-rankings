@@ -1,14 +1,16 @@
-import { ComponentChildren, hydrate, render } from "preact";
+import { ComponentChildren, hydrate } from "preact";
 import { useCallback } from "preact/hooks";
 import { cx } from "@twind/core";
 
 import PlayerBadge from "components/player-badge.tsx";
 import { isOpen } from "signals";
 
-import type { Game, Player, PlayerPoints } from "types";
+import type { ParsedGame, Player, PlayerPoints } from "types";
 import WinIcon from "components/icons/win.tsx";
 
-function GameCard({ game, player, ...rest }: { game: Game; player: Player }) {
+function GameCard(
+  { game, player, ...rest }: { game: ParsedGame; player: Player },
+) {
   const isPlayerInTeam1 = !!game.team1.find((p) => p.id === player.id);
 
   const team1Won = [
@@ -42,9 +44,7 @@ function GameCard({ game, player, ...rest }: { game: Game; player: Player }) {
       </div>
       <div className="grid grid-cols-9 w-full items-center justify-between px-2">
         <span className="flex gap-1 md:gap-2 justify-end col-span-4 items-center">
-          {team1Won && (
-            <WinIcon className="h-4 top-10 left-2 shrink-0" />
-          )}
+          {team1Won && <WinIcon className="h-4 top-10 left-2 shrink-0" />}
           <PlayerBadge
             className={player.id === game.team1[0].id ? "bg-[#ffe1a8]" : ""}
           >
@@ -69,9 +69,7 @@ function GameCard({ game, player, ...rest }: { game: Game; player: Player }) {
           >
             {game.team2[1].name}
           </PlayerBadge>
-          {team2Won && (
-            <WinIcon className="h-4 top-10 right-2 shrink-0" />
-          )}
+          {team2Won && <WinIcon className="h-4 top-10 right-2 shrink-0" />}
         </span>
       </div>
       <div class="flex basis-full justify-center gap-4 py-1 text-center mx-auto font-bitter text-lg">
@@ -176,7 +174,7 @@ export default function PlayerData(
   const toggle = useCallback(() => {
     isOpen.value = !isOpen.value;
     if (isOpen.value) {
-      render(
+      hydrate(
         <PlayerGames player={player} />,
         document.getElementById("modal-content")!,
       );

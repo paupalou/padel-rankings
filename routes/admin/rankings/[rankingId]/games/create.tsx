@@ -5,7 +5,7 @@ import Button from "components/button.tsx";
 import Select from "components/select.tsx";
 import PlayerSelection from "islands/player-selection.tsx";
 import SetSelection from "islands/set-selection.tsx";
-import { listByRankingId as listPlayersRanking } from "services/players.ts";
+import { listByRanking as listPlayersRanking } from "services/players.ts";
 import { create as createGame } from "services/games.ts";
 
 import type { Data, Game, Player } from "types";

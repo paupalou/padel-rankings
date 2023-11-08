@@ -39,17 +39,15 @@ export async function listById() {
   return players;
 }
 
-export async function listByRankingId(rankingId: string, byRankingId = false) {
-  const players = [];
+export async function listByRanking(rankingId: string) {
+  const players: Record<string, Player> = {};
   for await (
     const res of db.list<Player>({ prefix: ["players_by_ranking", rankingId] })
   ) {
-    players.push(res.value);
+    players[res.value.id] = res.value;
   }
 
-  return byRankingId
-    ? players.reduce((acc, curr) => ({ ...acc, [curr.id]: curr }), {})
-    : players;
+  return players;
 }
 
 export async function wipeAll() {

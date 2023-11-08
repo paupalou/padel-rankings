@@ -1,7 +1,12 @@
 import { ComponentChildren } from "preact";
 
-import { PlayerPoints } from "types";
 import PlayerData from "islands/player-data.tsx";
+
+import type { PlayerPoints } from "types";
+
+type RankingProps = {
+  ranking: PlayerPoints[];
+};
 
 function Position({ children }: { children: ComponentChildren }) {
   return (
@@ -49,9 +54,7 @@ export function RankingRow(
   );
 }
 
-export default function Ranking(
-  { ranking }: { ranking: PlayerPoints[] },
-) {
+export default function Ranking({ ranking }: RankingProps) {
   return (
     <div className="flex flex-col gap-2">
       {ranking.map((player, index) => (

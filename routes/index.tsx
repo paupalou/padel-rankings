@@ -5,7 +5,7 @@ import getEnv from "env";
 import Ranking from "components/ranking.tsx";
 import db from "services/database.ts";
 import { list as listGames } from "services/games.ts";
-import { listByRankingId } from "services/players.ts";
+import { listByRanking } from "services/players.ts";
 import { getScoring, initPlayerPoints } from "services/scoring.ts";
 
 import type { Data, GoogleUserInfo, PlayerPoints } from "types";
@@ -26,15 +26,13 @@ export const handler: Handlers = {
   async GET(req, ctx) {
     const sessionId = await getSessionId(req);
     const props: RankingProps & UserProps = {
-      user: {
-        isLogged: !!sessionId,
-        isAdmin: false,
-      },
+      user: { isLogged: !!sessionId, isAdmin: false },
     };
+
     const defaultRanking = getEnv("DEFAULT_RANKING_IN_HOME");
 
     if (defaultRanking) {
-      const players = await listByRankingId(defaultRanking);
+      const players = await listByRanking(defaultRanking);
       const games = await listGames();
       const playerPoints = initPlayerPoints(players);
 

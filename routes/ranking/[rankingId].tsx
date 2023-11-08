@@ -23,8 +23,8 @@ type UserProps = {
 export const handler: Handlers = {
   async GET(req, ctx) {
     const sessionId = await getSessionId(req);
-    const players = await listPlayers();
-    const games = await listGames();
+    // const players = await listPlayers();
+    // const games = await listGames();
 
     const props: RankingProps = {
       ranking: [],
@@ -37,7 +37,7 @@ export const handler: Handlers = {
       // ]);
       // props.user.isAdmin = Boolean(userSession.value?.admin);
       // props.user.email = userSession.value?.email!;
-      props.ranking = getScoring(games, initPlayerPoints(players));
+      // props.ranking = getScoring(games, initPlayerPoints(players));
     }
 
     return ctx.render(props);

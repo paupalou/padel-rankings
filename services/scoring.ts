@@ -7,22 +7,20 @@ const rules = {
 };
 
 export function initPlayerPoints(
-  players: Player[],
+  players: Record<string, Player>,
 ): Record<string, PlayerPoints> {
-  return players.reduce((acc, curr) => {
-    return {
-      ...acc,
-      [curr.id]: {
-        name: curr.name,
-        points: 0,
-        matches: 0,
-        wins: 0,
-        loses: 0,
-        average: 0,
-        games: [],
-      },
-    };
-  }, {});
+  return Object.entries(players).reduce((acc, [id, player]) => ({
+    ...acc,
+    [id]: {
+      name: player.name,
+      points: 0,
+      matches: 0,
+      wins: 0,
+      loses: 0,
+      average: 0,
+      games: [],
+    },
+  }), {});
 }
 
 function assignSetPoints({ playerPoints, set, teams }: {
@@ -57,6 +55,8 @@ export function getScoring(
 ) {
   games.forEach((game) => {
     const teams = [game.team1, game.team2];
+    const [team1player1, team1player2] = game.team1;
+    const [team2player1, team2player2] = game.team2;
 
     const set1_winner = assignSetPoints({
       set: game.set1,
@@ -78,7 +78,21 @@ export function getScoring(
 
     for (const playerId of game.team1) {
       playerPoints[playerId].matches += 1;
-      playerPoints[playerId].games = [...playerPoints[playerId].games, game];
+      playerPoints[playerId].games = [
+        ...playerPoints[playerId].games,
+        {
+          ...game,
+          team1: [
+            { id: team1player1, name: playerPoints[team1player1].name },
+            { id: team1player2, name: playerPoints[team1player2].name },
+          ] as [Player, Player],
+          team2: [
+            { id: team2player1, name: playerPoints[team2player1].name },
+            { id: team2player2, name: playerPoints[team2player2].name },
+          ] as [Player, Player],
+        },
+      ];
+
       if (gameWinner === 1) {
         playerPoints[playerId].wins += 1;
       } else {
@@ -88,7 +102,17 @@ export function getScoring(
 
     for (const playerId of game.team2) {
       playerPoints[playerId].matches += 1;
-      playerPoints[playerId].games = [...playerPoints[playerId].games, game];
+      playerPoints[playerId].games = [...playerPoints[playerId].games, {
+        ...game,
+        team1: [
+          { id: team1player1, name: playerPoints[team1player1].name },
+          { id: team1player2, name: playerPoints[team1player2].name },
+        ] as [Player, Player],
+        team2: [
+          { id: team2player1, name: playerPoints[team2player1].name },
+          { id: team2player2, name: playerPoints[team2player2].name },
+        ] as [Player, Player],
+      }];
       if (gameWinner === 2) {
         playerPoints[playerId].wins += 1;
       } else {

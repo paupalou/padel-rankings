@@ -48,6 +48,11 @@ export type GoogleUserInfo = {
   picture: string;
 } & UserType;
 
+export type ParsedGame = Omit<Game, "team1" | "team2"> & {
+  team1: [Player, Player];
+  team2: [Player, Player];
+};
+
 export type PlayerPoints = {
   id: string;
   name: string;
@@ -58,7 +63,7 @@ export type PlayerPoints = {
   loses: number;
   average: number;
   winratio: number;
-  games: Game[];
+  games: ParsedGame[];
 };
 
 export type DatabaseMigration = {

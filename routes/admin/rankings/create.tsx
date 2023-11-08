@@ -33,9 +33,6 @@ export const handler: Handlers = {
         name: rankingName,
         id: rankingId,
         creator,
-        players: [],
-        admins: [],
-        users: [],
         createdAt: new Date(),
       });
 
