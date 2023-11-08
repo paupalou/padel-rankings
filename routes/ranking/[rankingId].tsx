@@ -6,7 +6,7 @@ import { list as listPlayers } from "services/players.ts";
 import { list as listGames } from "services/games.ts";
 import db from "services/database.ts";
 import Ranking from "components/ranking.tsx";
-import { getRanking, initPlayerPoints } from "services/scoring.ts";
+import { getScoring, initPlayerPoints } from "services/scoring.ts";
 
 type RankingProps = {
   ranking: PlayerPoints[];
@@ -22,7 +22,7 @@ type UserProps = {
 
 export const handler: Handlers = {
   async GET(req, ctx) {
-    const sessionId = getSessionId(req);
+    const sessionId = await getSessionId(req);
     const players = await listPlayers();
     const games = await listGames();
 
@@ -37,7 +37,7 @@ export const handler: Handlers = {
       // ]);
       // props.user.isAdmin = Boolean(userSession.value?.admin);
       // props.user.email = userSession.value?.email!;
-      props.ranking = getRanking(games, initPlayerPoints(players));
+      props.ranking = getScoring(games, initPlayerPoints(players));
     }
 
     return ctx.render(props);

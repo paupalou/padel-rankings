@@ -1,4 +1,4 @@
-import { cx } from "twind/core@1.1.3";
+import { cx } from "@twind/core";
 import { Component } from "preact";
 
 export default function PlayerBadge(

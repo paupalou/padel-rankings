@@ -1,12 +1,14 @@
-import { getRanking, initPlayerPoints } from "services/scoring.ts";
 import { getSessionId } from "$kv_auth";
 import { Handlers } from "$fresh/server.ts";
-import { list as listPlayers } from "services/players.ts";
-import { list as listGames } from "services/games.ts";
-import db from "services/database.ts";
-import { Data, GoogleUserInfo, PlayerPoints } from "types";
-import Ranking from "components/ranking.tsx";
+
 import getEnv from "env";
+import Ranking from "components/ranking.tsx";
+import db from "services/database.ts";
+import { list as listGames } from "services/games.ts";
+import { listByRankingId } from "services/players.ts";
+import { getScoring, initPlayerPoints } from "services/scoring.ts";
+
+import type { Data, GoogleUserInfo, PlayerPoints } from "types";
 
 type UserProps = {
   user: {
@@ -22,7 +24,7 @@ type RankingProps = {
 
 export const handler: Handlers = {
   async GET(req, ctx) {
-    const sessionId = getSessionId(req);
+    const sessionId = await getSessionId(req);
     const props: RankingProps & UserProps = {
       user: {
         isLogged: !!sessionId,
@@ -32,11 +34,11 @@ export const handler: Handlers = {
     const defaultRanking = getEnv("DEFAULT_RANKING_IN_HOME");
 
     if (defaultRanking) {
-      const players = await listPlayers();
+      const players = await listByRankingId(defaultRanking);
       const games = await listGames();
       const playerPoints = initPlayerPoints(players);
 
-      props.ranking = getRanking(games, playerPoints);
+      props.ranking = getScoring(games, playerPoints);
     }
 
     if (sessionId) {

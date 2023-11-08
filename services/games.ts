@@ -36,6 +36,17 @@ export async function list() {
   return games;
 }
 
+export async function listByRanking(rankingId: string) {
+  const games = [];
+  for await (
+    const res of db.list<Game>({ prefix: ["games_by_ranking", rankingId] })
+  ) {
+    games.push(res.value);
+  }
+
+  return games;
+}
+
 export async function create(game: Partial<Game>, rankingId: string) {
   const gameId = ulid();
   const primaryKey = ["games", gameId];

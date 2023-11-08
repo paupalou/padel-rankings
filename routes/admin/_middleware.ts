@@ -8,7 +8,7 @@ export async function handler(
   req: Request,
   ctx: MiddlewareHandlerContext,
 ) {
-  const sessionId = getSessionId(req);
+  const sessionId = await getSessionId(req);
 
   if (!sessionId) {
     return new Response("Unauthorized", { status: 401 });

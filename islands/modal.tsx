@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-window-prefix
 import { useCallback, useEffect, useRef } from "preact/hooks";
-import { cx } from "twind/core@1.1.3";
+import { cx } from "@twind/core";
 
 import { isOpen } from "signals";
 import CloseIcon from "components/icons/close.tsx";

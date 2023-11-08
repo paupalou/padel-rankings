@@ -31,7 +31,7 @@ function User(
           )}
         <Button>
           {user.isLogged
-            ? <a href="/oauth/signout">Logout</a>
+            ? <a href="/oauth/signout?success_url=/">Logout</a>
             : <a href="/oauth/signin">Login</a>}
         </Button>
       </div>
@@ -40,7 +40,7 @@ function User(
 }
 
 export default async function Layout(req: Request, ctx: LayoutContext) {
-  const sessionId = getSessionId(req);
+  const sessionId = await getSessionId(req);
   const user: UserProps = { isLogged: !!sessionId, isAdmin: false };
   const onAdminPage = req.url.startsWith(`${getEnv("RANKING_ROOT_URL")}/admin`);
 

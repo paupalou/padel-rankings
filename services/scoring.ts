@@ -38,20 +38,20 @@ function assignSetPoints({ playerPoints, set, teams }: {
   const team2_won_set = gameDifference < 0;
 
   if (team1_won_set) {
-    for (const player of team1) {
-      playerPoints[player.id].points += rules.set_value + (gameDifference - 2);
+    for (const playerId of team1) {
+      playerPoints[playerId].points += rules.set_value + (gameDifference - 2);
     }
     return 1;
   } else if (team2_won_set) {
-    for (const player of team2) {
-      playerPoints[player.id].points += rules.set_value +
+    for (const playerId of team2) {
+      playerPoints[playerId].points += rules.set_value +
         Math.abs(gameDifference) - 2;
     }
     return 2;
   }
 }
 
-export function getRanking(
+export function getScoring(
   games: Game[],
   playerPoints: Record<string, PlayerPoints>,
 ) {
@@ -76,23 +76,23 @@ export function getRanking(
       gameWinner = assignSetPoints({ set: game.set3, playerPoints, teams });
     }
 
-    for (const player of game.team1) {
-      playerPoints[player.id].matches += 1;
-      playerPoints[player.id].games = [...playerPoints[player.id].games, game];
+    for (const playerId of game.team1) {
+      playerPoints[playerId].matches += 1;
+      playerPoints[playerId].games = [...playerPoints[playerId].games, game];
       if (gameWinner === 1) {
-        playerPoints[player.id].wins += 1;
+        playerPoints[playerId].wins += 1;
       } else {
-        playerPoints[player.id].loses += 1;
+        playerPoints[playerId].loses += 1;
       }
     }
 
-    for (const player of game.team2) {
-      playerPoints[player.id].matches += 1;
-      playerPoints[player.id].games = [...playerPoints[player.id].games, game];
+    for (const playerId of game.team2) {
+      playerPoints[playerId].matches += 1;
+      playerPoints[playerId].games = [...playerPoints[playerId].games, game];
       if (gameWinner === 2) {
-        playerPoints[player.id].wins += 1;
+        playerPoints[playerId].wins += 1;
       } else {
-        playerPoints[player.id].loses += 1;
+        playerPoints[playerId].loses += 1;
       }
     }
   });

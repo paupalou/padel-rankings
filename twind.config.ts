@@ -1,6 +1,6 @@
-import { defineConfig, Preset } from "twind/core@1.1.3";
-import presetTailwind, { TailwindTheme } from "twind/preset-tailwind@1.1.4";
-import presetAutoprefix from "twind/preset-autoprefix@1.0.7";
+import { defineConfig, Preset } from "@twind/core";
+import presetTailwind, { TailwindTheme } from "@twind/preset-tailwind";
+import presetAutoprefix from "@twind/preset-autoprefix";
 
 export default {
   ...defineConfig({

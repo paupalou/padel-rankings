@@ -1,6 +1,6 @@
 import { ComponentChildren, hydrate, render } from "preact";
 import { useCallback } from "preact/hooks";
-import { cx } from "twind/core@1.1.3";
+import { cx } from "@twind/core";
 
 import PlayerBadge from "components/player-badge.tsx";
 import { isOpen } from "signals";

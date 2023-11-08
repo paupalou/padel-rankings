@@ -2,23 +2,26 @@ import { Handlers } from "$fresh/server.ts";
 
 import Button from "components/button.tsx";
 import PlayerBadge from "components/player-badge.tsx";
-import {
-  get as getRanking,
-  listGames as listRankingGames,
-} from "services/rankings.ts";
+import { get as getRanking } from "services/rankings.ts";
+import { listByRanking as listGamesByRanking } from "services/games.ts";
 import { listById as listPlayersById } from "services/players.ts";
 
-import type { Data, Game, Ranking } from "types";
+import type { Data, Game, Player } from "types";
+
+type RankingGamesProps = Data<{
+  games: Game[];
+  players: Record<string, Player>;
+  rankingName: string;
+}>;
 
 export const handler: Handlers = {
   async GET(_req, ctx) {
     const { rankingId } = ctx.params;
     const ranking = await getRanking(rankingId);
-    const games = await listRankingGames(rankingId);
+    const games = await listGamesByRanking(rankingId);
     const playersById = await listPlayersById();
 
     return ctx.render({
-      ranking,
       games: games.sort((a, b) => {
         const gameATime = new Date(a.playedAt).getTime();
         const gameBTime = new Date(b.playedAt).getTime();
@@ -32,22 +35,20 @@ export const handler: Handlers = {
         return 0;
       }),
       players: playersById,
+      rankingName: ranking?.name,
     });
   },
 };
 
-
 export default function Games(
-  { data: { games, ranking } }: Data<
-    { games: Game[]; ranking: Ranking }
-  >,
+  { data: { games, players, rankingName } }: RankingGamesProps,
 ) {
   return (
     <section class="flex flex-col gap-2">
       <h2>
         <a class="text-cyan-800 mr-2" href={"/admin"}>Admin &gt;</a>
         <a class="text-cyan-800 mr-2" href={"/admin/rankings"}>Rankings &gt;</a>
-        <a class="text-cyan-800 mr-2" href={"."}>{ranking.name} &gt;</a>
+        <a class="text-cyan-800 mr-2" href={"."}>{rankingName} &gt;</a>
         <span class="text-slate-800">Games</span>
       </h2>
       <Button type="button">
@@ -67,19 +68,19 @@ export default function Games(
             <div class="flex gap-2 py-4 text-md justify-between px-2">
               <span class="flex gap-2 basis-2/6">
                 <PlayerBadge>
-                  {game.team1[0].name}
+                  {players[game.team1[0]].name}
                 </PlayerBadge>
                 <PlayerBadge>
-                  {game.team1[1].name}
+                  {players[game.team1[1]].name}
                 </PlayerBadge>
               </span>
               <span>vs</span>
               <span class="flex gap-2 basis-2/6">
                 <PlayerBadge>
-                  {game.team2[0].name}
+                  {players[game.team2[0]].name}
                 </PlayerBadge>
                 <PlayerBadge>
-                  {game.team2[1].name}
+                  {players[game.team2[1]].name}
                 </PlayerBadge>
               </span>
             </div>

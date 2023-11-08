@@ -18,13 +18,10 @@ export type Ranking = {
   id: string;
   name: string;
   creator: User;
-  players: Player[];
-  users: User[];
-  admins: User[];
   createdAt: Date;
 };
 
-export type Team = [Player, Player];
+export type Team = [string, string];
 export type SetScore = [number, number];
 
 export type Game = {

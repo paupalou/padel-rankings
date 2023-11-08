@@ -5,34 +5,35 @@ import Button from "components/button.tsx";
 import Select from "components/select.tsx";
 import PlayerSelection from "islands/player-selection.tsx";
 import SetSelection from "islands/set-selection.tsx";
-import { list as listPlayers, listById as listPlayersById } from "services/players.ts";
+import { listByRankingId as listPlayersRanking } from "services/players.ts";
 import { create as createGame } from "services/games.ts";
 
 import type { Data, Game, Player } from "types";
 
 export const handler: Handlers = {
   async GET(_req, ctx) {
-    const players = await listPlayers();
+    const players = await listPlayersRanking(ctx.params.rankingId);
     return await ctx.render({ players });
   },
   async POST(req, ctx) {
     const form = await req.formData();
-    const players = await listPlayersById();
+    const { rankingId  } = ctx.params;
 
     const game: Partial<Game> = {
       playedAt: new Date(form.get("playedAt") as string),
       createdAt: new Date(),
       field: form.get("field") as string,
       team1: [
-        players[form.get("team1player1") as string],
-        players[form.get("team1player2") as string],
+        form.get("team1player1") as string,
+        form.get("team1player2") as string,
       ],
       team2: [
-        players[form.get("team2player1") as string],
-        players[form.get("team2player2") as string],
+        form.get("team2player1") as string,
+        form.get("team2player2") as string,
       ],
       set1: [Number(form.get("set1team1")), Number(form.get("set1team2"))],
       set2: [Number(form.get("set2team1")), Number(form.get("set2team2"))],
+      ranking: rankingId
     };
 
     const existsThirdSet = form.get("set3team1") && form.get("set3team2");
@@ -43,7 +44,7 @@ export const handler: Handlers = {
       ];
     }
 
-    await createGame(game, ctx.params.rankingId);
+    await createGame(game, rankingId);
 
     return new Response(null, {
       status: 303, // See Other

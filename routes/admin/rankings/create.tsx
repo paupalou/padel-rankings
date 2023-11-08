@@ -16,7 +16,7 @@ export const handler: Handlers = {
     return await ctx.render();
   },
   async POST(req, _ctx) {
-    const sessionId = getSessionId(req);
+    const sessionId = await getSessionId(req);
 
     if (sessionId) {
       const userSession = await db.get<GoogleUserInfo>([

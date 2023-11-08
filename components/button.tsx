@@ -1,5 +1,5 @@
-import { cx } from "twind/core@1.1.3";
 import { ComponentChildren } from "preact";
+import { cx } from "@twind/core";
 
 interface ButtonProps {
   type?: "button" | "submit";

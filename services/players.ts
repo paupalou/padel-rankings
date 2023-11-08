@@ -5,14 +5,14 @@ import db from "services/database.ts";
 
 export async function create(player: Player) {
   const playerId = player.id ?? ulid();
-  const playerKey = ["player", playerId];
+  const playerKey = ["players", playerId];
 
   await db.atomic().set(playerKey, player).commit();
   return new Response(playerId);
 }
 
 export async function get(playerId: string) {
-  const playerKey = ["player", playerId];
+  const playerKey = ["players", playerId];
   const playerRes = await db.get(playerKey);
 
   const ok = db.atomic().check(playerRes);
@@ -23,7 +23,7 @@ export async function get(playerId: string) {
 
 export async function list() {
   const players = [];
-  for await (const res of db.list<Player>({ prefix: ["player"] })) {
+  for await (const res of db.list<Player>({ prefix: ["players"] })) {
     players.push(res.value);
   }
 
@@ -32,16 +32,29 @@ export async function list() {
 
 export async function listById() {
   const players: Record<string, Player> = {};
-  for await (const res of db.list<Player>({ prefix: ["player"] })) {
+  for await (const res of db.list<Player>({ prefix: ["players"] })) {
     players[res.value.id] = res.value;
   }
 
   return players;
 }
 
+export async function listByRankingId(rankingId: string, byRankingId = false) {
+  const players = [];
+  for await (
+    const res of db.list<Player>({ prefix: ["players_by_ranking", rankingId] })
+  ) {
+    players.push(res.value);
+  }
+
+  return byRankingId
+    ? players.reduce((acc, curr) => ({ ...acc, [curr.id]: curr }), {})
+    : players;
+}
+
 export async function wipeAll() {
   const playerKeys = [];
-  for await (const res of db.list({ prefix: ["player"] })) {
+  for await (const res of db.list({ prefix: ["players"] })) {
     playerKeys.push(res.key);
   }
 
@@ -55,7 +68,7 @@ export async function wipeAll() {
 }
 
 export async function remove(playerId: string) {
-  const playerKey = ["player", playerId];
+  const playerKey = ["players", playerId];
   const playerRes = await db.get(playerKey);
 
   if (!playerRes.value) {

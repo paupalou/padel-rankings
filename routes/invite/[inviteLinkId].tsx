@@ -1,15 +1,14 @@
 import { Handlers } from "$fresh/server.ts";
-import Input from "components/input.tsx";
-import Button from "components/button.tsx";
+import { getSessionId } from "$kv_auth";
 
 import { consumeInviteLink } from "services/rankings.ts";
-import { Data } from "types";
-import { getSessionId } from "$kv_auth";
 import { getSession } from "services/auth.ts";
+
+import type { Data } from "types";
 
 export const handler: Handlers = {
   async GET(req, ctx) {
-    const sessionId = getSessionId(req);
+    const sessionId = await getSessionId(req);
     if (!sessionId) {
       return await ctx.render({ success: false });
     }
