@@ -1,12 +1,12 @@
-import { ComponentChildren, hydrate } from "preact";
+import { ComponentChildren, render } from "preact";
 import { useCallback } from "preact/hooks";
 import { cx } from "@twind/core";
 
 import PlayerBadge from "components/player-badge.tsx";
+import WinIcon from "components/icons/win.tsx";
 import { isOpen } from "signals";
 
 import type { ParsedGame, Player, PlayerPoints } from "types";
-import WinIcon from "components/icons/win.tsx";
 
 function GameCard(
   { game, player, ...rest }: { game: ParsedGame; player: Player },
@@ -174,7 +174,7 @@ export default function PlayerData(
   const toggle = useCallback(() => {
     isOpen.value = !isOpen.value;
     if (isOpen.value) {
-      hydrate(
+      render(
         <PlayerGames player={player} />,
         document.getElementById("modal-content")!,
       );
