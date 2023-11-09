@@ -53,7 +53,7 @@ export const handler: Handlers = {
 };
 
 export default function CreateGame(
-  { data: { players } }: Data<{ players: Player[] }>,
+  { data: { players } }: Data<{ players: Record<string, Player> }>,
 ) {
   return (
     <form method="post" className="flex flex-col max-w-lg p-4 gap-2">

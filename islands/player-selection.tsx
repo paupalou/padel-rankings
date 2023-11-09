@@ -3,28 +3,32 @@ import { useSignal } from "@preact/signals";
 import { Player } from "types";
 import Select from "components/select.tsx";
 
-export default function PlayerSelection({ players }: { players: Player[] }) {
+export default function PlayerSelection(
+  { players }: { players: Record<string, Player> },
+) {
   const selection = useSignal(["", "", "", ""]);
+
+  const playersById = Object.keys(players);
 
   const options = {
     team1: {
-      player1: players.filter((player) =>
-        !selection.value.slice(1).includes(player.id)
-      ).map((p) => p.id),
-      player2: players.filter((player) =>
-        selection.value[0] !== player.id && selection.value[2] !== player.id &&
-        selection.value[3] !== player.id
-      ).map((p) => p.id),
+      player1: playersById.filter((playerId) =>
+        !selection.value.slice(1).includes(playerId)
+      ),
+      player2: playersById.filter((playerId) =>
+        selection.value[0] !== playerId && selection.value[2] !== playerId &&
+        selection.value[3] !== playerId
+      ),
     },
 
     team2: {
-      player1: players.filter((player) =>
-        selection.value[0] !== player.id && selection.value[1] !== player.id &&
-        selection.value[3] !== player.id
-      ).map((p) => p.id),
-      player2: players.filter((player) =>
-        !selection.value.slice(0, -1).includes(player.id)
-      ).map((p) => p.id),
+      player1: playersById.filter((playerId) =>
+        selection.value[0] !== playerId && selection.value[1] !== playerId &&
+        selection.value[3] !== playerId
+      ),
+      player2: playersById.filter((playerId) =>
+        !selection.value.slice(0, -1).includes(playerId)
+      ),
     },
   };
 
@@ -62,24 +66,24 @@ export default function PlayerSelection({ players }: { players: Player[] }) {
         <span>Team 1</span>
         <Select
           name="team1player1"
-          options={players.map((player) => (
+          options={playersById.map((playerId) => (
             <option
-              disabled={!options.team1.player1.includes(player.id)}
-              value={player.id}
+              disabled={!options.team1.player1.includes(playerId)}
+              value={playerId}
             >
-              {player.name}
+              {players[playerId].name}
             </option>
           ))}
           onChange={(e) => selectPlayer([1, 1])(e.target.value)}
         />
         <Select
           name="team1player2"
-          options={players.map((player) => (
+          options={playersById.map((playerId) => (
             <option
-              disabled={!options.team1.player2.includes(player.id)}
-              value={player.id}
+              disabled={!options.team1.player2.includes(playerId)}
+              value={playerId}
             >
-              {player.name}
+              {players[playerId].name}
             </option>
           ))}
           onChange={(e) => selectPlayer([1, 2])(e.target.value)}
@@ -90,24 +94,24 @@ export default function PlayerSelection({ players }: { players: Player[] }) {
         <span>Team2</span>
         <Select
           name="team2player1"
-          options={players.map((player) => (
+          options={playersById.map((playerId) => (
             <option
-              disabled={!options.team2.player1.includes(player.id)}
-              value={player.id}
+              disabled={!options.team2.player1.includes(playerId)}
+              value={playerId}
             >
-              {player.name}
+              {players[playerId].name}
             </option>
           ))}
           onChange={(e) => selectPlayer([2, 1])(e.target.value)}
         />
         <Select
           name="team2player2"
-          options={players.map((player) => (
+          options={playersById.map((playerId) => (
             <option
-              disabled={!options.team2.player2.includes(player.id)}
-              value={player.id}
+              disabled={!options.team2.player2.includes(playerId)}
+              value={playerId}
             >
-              {player.name}
+              {players[playerId].name}
             </option>
           ))}
           onChange={(e) => selectPlayer([2, 2])(e.target.value)}
