@@ -66,7 +66,7 @@ export default function CreateGame(
         <span>Field</span>
         <Select
           name="field"
-          options={["Sometimes", "Factory"].map((field) => (
+          options={["Sometimes", "Factory", "Freedom"].map((field) => (
             <option value={field}>{field}</option>
           ))}
         />
