@@ -188,7 +188,7 @@ export default function PlayerData(
 
   return (
     <button
-      class="flex w-full h-12 gap-2 items-center bg-turque/30 rounded-lg justify-between drop-shadow-md"
+      class="flex w-full h-12 gap-2 items-center bg-turque/30 rounded-lg justify-between"
       type="button"
       onClick={openPlayerInfo}
     >

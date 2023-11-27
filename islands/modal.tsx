@@ -50,8 +50,8 @@ export default function Modal() {
       className={cx(
         "fixed top-0 h-screen w-screen bg-black/80 transition-transform ease-smooth duration-300",
         {
-          "translate-x-0": isOpen.value,
-          "-translate-x-[100vw]": !isOpen.value,
+          "translate-x-0 will-change-transform": isOpen.value,
+          "-translate-x-[100vw]  will-change-auto": !isOpen.value,
         },
       )}
     >

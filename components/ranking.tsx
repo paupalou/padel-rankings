@@ -10,7 +10,7 @@ type RankingProps = {
 
 function Position({ children }: { children: ComponentChildren }) {
   return (
-    <div class="bg-blue w-8 h-full flex items-center font-bitter rounded-l-lg drop-shadow-md">
+    <div class="bg-blue w-8 h-full flex items-center font-bitter rounded-l-lg">
       <span className="text-white mx-auto font-bold text-xl">
         {children}
       </span>
